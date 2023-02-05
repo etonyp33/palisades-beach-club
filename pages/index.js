@@ -1,18 +1,10 @@
-import Head from "next/head";
 import Image from "next/image";
-// import { Inter } from "@next/font/google";
 import styles from "../styles/Home.module.css";
-// import Crud from "./crud";
-// import Parse from "parse";
 import { useEffect, useState } from "react";
-// import { Inter } from "@next/font/google";
 import { Box, Button, Container, Grid, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { useMediaQuery } from "@mui/material";
 import { useRouter } from "next/router";
-// var textName = "home";
-// var textAge =
-//   "PHAgY2xhc3M9IlwiPlF1aWNrIExpbmtzIDo8L3A+CjxwPjxhIGhyZWY9InJlc2VydmF0aW9ucyI+TWFrZSBhIFJlc2VydmF0aW9uPC9hPjwvcD4KPHA+U2VuZCBhIE1lc3NhZ2UgdG8gdGhlIEJvYXJkPGJyIC8+PGEgaHJlZj0ibWFpbHRvOmtlZmZlbEBtYWlsdG86a2VmZmVsQHJvYWRydW5uZXIuY29tIj5BbmR5IE1pbGxlcjwvYT4mbmJzcDsoa2VmZmVsQHJvYWRydW5uZXIuY29tKTwvcD4=";
 const loginEnter = (props) => {
   if (props.key === "Enter") {
     // loginClick();
