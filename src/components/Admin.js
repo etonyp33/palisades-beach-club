@@ -11,26 +11,16 @@ import { getData, getBoard } from "./data";
 import { Pages_data } from "../context/context";
 import { getNavBar } from "./NavBarComponent";
 import "react-quill/dist/quill.snow.css";
-import EditorToolbar, { modules, formats } from "./EditorToolbar";
+// import EditorToolbar, { modules, formats } from "./EditorToolbar";
 
 // import Editor from "./Editor";
-const ReactQuill = typeof window === "object" ? require("react-quill") : () => false;
+// const ReactQuill = typeof window === "object" ? require("react-quill") : () => false;
 
 const pgName = "home";
 
 const encodeBase64 = (data) => {
   return Buffer.from(data).toString("base64");
 };
-const QuillToolbar = () => (
-  <div id="toolbar">
-    <span className="ql-formats">
-      <select className="ql-align" />
-      <select className="ql-color" />
-      <select className="ql-background" />
-    </span>
-  </div>
-);
-
 export default function Admin(reload) {
   const { pages } = useContext(Pages_data);
   const router = useRouter();
@@ -52,7 +42,7 @@ export default function Admin(reload) {
       type = type.toLowerCase();
       setSaveType(type);
       const obj = getData(pages, type);
-      console.log(obj["content"]);
+      // console.log(obj["content"]);
       setValue(obj["content"]);
       if (type === "home") {
         setQuillClass("q-home");
@@ -62,7 +52,7 @@ export default function Admin(reload) {
         setBoardEdit("board-hidden");
       }
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
 
@@ -121,7 +111,7 @@ export default function Admin(reload) {
       } catch (error) {
         alert("Failed to update object, with error code: " + error.message);
       }
-      console.log(saveType);
+      // console.log(saveType);
       if (saveType === "home") {
         try {
           page.set("objectId", process.env.NEXT_PUBLIC_HOME_NAME_ID);
@@ -285,14 +275,14 @@ export default function Admin(reload) {
             /> */}
 
             <div className="text-editor">
-              <EditorToolbar />
-              <ReactQuill
+              {/* <EditorToolbar /> */}
+              {/* <ReactQuill
                 theme="snow"
                 value={value}
                 onChange={setValue}
                 modules={modules}
                 formats={formats}
-              />
+              /> */}
             </div>
           </Box>
         </div>

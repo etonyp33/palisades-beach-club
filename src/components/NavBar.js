@@ -24,32 +24,16 @@ const NavBar = () => {
           <br />
         </div>
       </Box>
-      <div id="mainMenuWrapper" className="hidden">
+      <div id="mainMenuWrapper">
         <Box display="flex" justifyContent="center" sx={{ p: 2 }}>
           <Link href={"/home"}>
             <div className="link" id="home-link" onMouseEnter={mouseEnter} onMouseLeave={mouseOut}>
               Home
-              {/* <img
-              src="images/b_home.jpg"
-              alt="Home"
-              name="home"
-              width="58"
-              height="30"
-              border="0"
-            /> */}
             </div>
           </Link>
           <Link href={"/news"}>
             <div className="link" id="news-link" onMouseEnter={mouseEnter} onMouseLeave={mouseOut}>
               News
-              {/* <img
-              src="images/b_news.jpg"
-              alt="News"
-              name="News"
-              width="46"
-              height="30"
-              border="0"
-            /> */}
             </div>
           </Link>
           <Link href={"/reservations"}>
@@ -60,27 +44,11 @@ const NavBar = () => {
               onMouseLeave={mouseOut}
             >
               Reservations
-              {/* <img
-              src="images/b_reservations.jpg"
-              alt="Reservations"
-              name="Reservations"
-              width="114"
-              height="30"
-              border="0"
-            /> */}
             </div>
           </Link>
           <Link href={"/rules"}>
             <div className="link" id="rules-link" onMouseEnter={mouseEnter} onMouseLeave={mouseOut}>
               Rules
-              {/* <img
-              src="images/b_rules.jpg"
-              alt="Rules And Policy"
-              name="Rules"
-              width="149"
-              height="30"
-              border="0"
-            /> */}
             </div>
           </Link>
           <Link href={`/calendar`}>
@@ -91,14 +59,6 @@ const NavBar = () => {
               onMouseLeave={mouseOut}
             >
               Calendar
-              {/* <img
-              src="images/b_calendar.jpg"
-              alt="Calendar"
-              name="Calendar"
-              width="93"
-              height="30"
-              border="0"
-            /> */}
             </div>
           </Link>
           <Link href={"/gallery"}>
@@ -109,14 +69,6 @@ const NavBar = () => {
               onMouseLeave={mouseOut}
             >
               Gallery
-              {/* <img
-              src="images/b_gallery.jpg"
-              alt="Gallery"
-              name="Gallery"
-              width="72"
-              height="30"
-              border="0"
-            /> */}
             </div>
           </Link>
           <Link href={"/roster"}>
@@ -127,20 +79,9 @@ const NavBar = () => {
               onMouseLeave={mouseOut}
             >
               Roster
-              {/* <img
-              src="images/b_roster.jpg"
-              alt="Roster"
-              name="Roster"
-              width="58"
-              height="30"
-              border="0"
-            /> */}
             </div>
           </Link>
         </Box>
-        {/* <li>
-          <Link to="/will-not-match">Will Not Match</Link>
-        </li> */}
       </div>
       <div className="hRule"></div>
     </div>
