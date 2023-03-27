@@ -11,11 +11,10 @@ import { getData, getBoard } from "./data";
 import { Pages_data } from "../context/context";
 import { getNavBar } from "./NavBarComponent";
 import "react-quill/dist/quill.snow.css";
-// import EditorToolbar, { modules, formats } from "./EditorToolbar";
+// import Link from "next/link";
+import EditorToolbar, { modules, formats } from "./EditorToolbar";
 
-// import Editor from "./Editor";
-// const ReactQuill = typeof window === "object" ? require("react-quill") : () => false;
-
+const ReactQuill = typeof window === "object" ? require("react-quill") : () => false;
 const pgName = "home";
 
 const encodeBase64 = (data) => {
@@ -33,6 +32,8 @@ export default function Admin(reload) {
   const [value, setValue] = useState("");
   const [quillClass, setQuillClass] = useState("q-home");
   const [boardEdit, setBoardEdit] = useState("");
+
+  const [editor, setEditor] = useState(false);
 
   const handleClick = (e) => {
     try {
@@ -71,6 +72,9 @@ export default function Admin(reload) {
       setBName(bObj.name);
       setBEmail(bObj.email);
       // setData(dataObj["content"]);
+      const ReactQuill = typeof window === "object" ? require("react-quill") : () => false;
+      console.log(value);
+      setEditor(true);
     } catch (error) {
       router.push("/");
     }
@@ -88,7 +92,7 @@ export default function Admin(reload) {
         id = process.env.NEXT_PUBLIC_RULES_ID;
         break;
       case "reservations":
-        id = process.env.NEXT_PUBLIC_RESERVATIONS;
+        id = process.env.NEXT_PUBLIC_RESERVATIONS_ID;
         break;
     }
     return id;
@@ -225,6 +229,7 @@ export default function Admin(reload) {
               </Typography>
             </div>
 
+
             <IconButton sx={{ ml: 5 }} aria-label="save" onClick={runSave}>
               <SaveIcon />
             </IconButton>
@@ -275,8 +280,22 @@ export default function Admin(reload) {
             /> */}
 
             <div className="text-editor">
-              {/* <EditorToolbar /> */}
-              {/* <ReactQuill
+              {typeof( <ReactQuill />) === 'undefined' ? (
+                ""
+              ) : (
+                <>
+                  <EditorToolbar />
+                  <ReactQuill
+                    theme="snow"
+                    value={value}
+                    onChange={setValue}
+                    modules={modules}
+                    formats={formats}
+                  />
+                </>
+              )}
+              {/* <EditorToolbar />
+              <ReactQuill
                 theme="snow"
                 value={value}
                 onChange={setValue}

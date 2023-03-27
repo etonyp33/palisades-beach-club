@@ -66,10 +66,11 @@ export default function Home() {
 
   const handleLogin = (e) => {
     const str = md5(pw);
+    console.log(str)
     switch (loginType) {
       case "member":
         if (
-          pw === '' ||
+          // pw === '' ||
           str === process.env.NEXT_PUBLIC_MEMBER_LOGIN_1 ||
           str === process.env.NEXT_PUBLIC_MEMBER_LOGIN_2
         ) {
@@ -79,7 +80,7 @@ export default function Home() {
         break;
       case "calendar":
         if (
-          pw === '' ||
+          // pw === '' ||
           str === process.env.NEXT_PUBLIC_CALENDAR_LOGIN_1 ||
           str === process.env.NEXT_PUBLIC_CALENDAR_LOGIN_2
         ) {
@@ -90,7 +91,7 @@ export default function Home() {
         break;
       case "administrator":
         if (
-          pw === '' ||
+          // pw === '' ||
           str === process.env.NEXT_PUBLIC_ADMIN_LOGIN_1 ||
           str === process.env.NEXT_PUBLIC_ADMIN_LOGIN_2
         ) {
@@ -132,12 +133,12 @@ export default function Home() {
       pgsData['type'] = loginType
       sessionStorage.setItem('pgsData', JSON.stringify(pgsData))
       setPages(pgsData);
-      console.log(loginType)
-      if(loginType === 'administrator') {
-        router.push("/admin");
-      } else {
+      // console.log(loginType)
+      // if(loginType === 'administrator') {
+      //   router.push("/admin");
+      // } else {
         router.push("/home");
-      }
+      // }
     };
     getPgs();
   }

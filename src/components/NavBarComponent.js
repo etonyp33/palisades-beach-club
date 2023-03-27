@@ -19,6 +19,7 @@ export function getNavBar(pages) {
 }
 function navBar(loginType) {
   let navBar;
+  console.log(loginType)
   switch (loginType) {
     case "member":
       navBar = <NavBar />;

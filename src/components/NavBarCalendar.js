@@ -28,7 +28,6 @@ const NavBarCalendar = ({loginType}) => {
       </Box>
       <div id="mainMenuWrapper">
       </div>
-      <div className="hRule"></div>
     </div>
   );
 };
