@@ -136,8 +136,7 @@ body {
   } */
 
   
-
-  @media screen and (max-width:650px) {
+  @media screen and (max-width:500px) {
 	#menu-wrapper {
 		text-align: center;
 		line-height: 1.9em;

@@ -25,6 +25,7 @@ import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import { loginCheck } from "../src/components/verify";
 
+
 let innerSx = { p: 1 };
 import App from "./App";
 const handleAuth = () => (isRegistering ? handleRegister() : handleLogin());
@@ -70,7 +71,7 @@ export default function Home() {
     switch (loginType) {
       case "member":
         if (
-          // pw === '' ||
+          pw === '' ||
           str === process.env.NEXT_PUBLIC_MEMBER_LOGIN_1 ||
           str === process.env.NEXT_PUBLIC_MEMBER_LOGIN_2
         ) {
