@@ -15,9 +15,22 @@
     "@mui/icons-material": "^5.10.6",
     "@mui/material": "^5.10.7",
     "@next/font": "13.1.6",
+    "@parse/react-native": "^0.0.1-alpha.18",
+    "aws-lambda": "^1.0.7",
+    "aws-sdk": "^2.1323.0",
+    "install": "^0.13.0",
+    "jquery": "^3.6.3",
+    "md5": "^2.3.0",
+    "moment": "^2.29.4",
     "next": "13.1.6",
     "parse": "^4.0.1",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-big-calendar": "^1.6.8",
+    "react-dom": "18.2.0",
+    "react-grid-gallery": "^1.0.0",
+    "react-native-big-calendar": "^3.4.1",
+    "react-quill": "^2.0.0",
+    "react-responsive-carousel": "^3.2.23",
+    "uuid": "^9.0.0"
   }
 }

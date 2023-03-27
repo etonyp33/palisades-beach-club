@@ -100,7 +100,7 @@ function tiny(id) {
 
 adminSave = (pg) => {
   var tinycontent = tinyMCE.activeEditor.getContent()
-  console.log(tinycontent)
+  // console.log(tinycontent)
   var content = encodeURIComponent(tinycontent)
   var data = {
     pg: pg,

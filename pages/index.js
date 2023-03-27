@@ -1,27 +1,106 @@
+import React, { useState, useEffect, useContext } from "react";
+
 import Image from "next/image";
+import Parse from "../src/parse";
 import styles from "../styles/Home.module.css";
-import { useEffect, useState } from "react";
-import { Box, Button, Container, Grid, Typography } from "@mui/material";
+import { Box, Button, Container, Grid, Typography, Paper } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { useMediaQuery } from "@mui/material";
 import { useRouter } from "next/router";
-const loginEnter = (props) => {
-  if (props.key === "Enter") {
-    // loginClick();
-  }
-};
+import md5 from "md5";
+import { Pages_data } from "../src/context/context";
+
+import IconButton from "@mui/material/IconButton";
+import Input from "@mui/material/Input";
+import FilledInput from "@mui/material/FilledInput";
+import OutlinedInput from "@mui/material/OutlinedInput";
+import InputLabel from "@mui/material/InputLabel";
+import InputAdornment from "@mui/material/InputAdornment";
+import FormHelperText from "@mui/material/FormHelperText";
+import FormControl from "@mui/material/FormControl";
+import TextField from "@mui/material/TextField";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import MenuItem from "@mui/material/MenuItem";
+import Select from "@mui/material/Select";
+import { loginCheck } from "../src/components/verify";
 
 let innerSx = { p: 1 };
 import App from "./App";
 const handleAuth = () => (isRegistering ? handleRegister() : handleLogin());
+const encodeBase64 = (data) => {
+  return Buffer.from(data).toString("base64");
+};
+const decodeBase64 = (data) => {
+  return Buffer.from(data, "base64").toString("ascii");
+};
 
 export default function Home() {
-  const router = useRouter();
-  const handleLogin = () => {
-    router.push("/home");
+  const [loginType, setLoginType] = React.useState("member");
+
+  const handleChange = (event) => {
+    setLoginType(event.target.value);
   };
 
-  const [crud, setCrud] = useState("");
+  const { pages, setPages } = useContext(Pages_data);
+  const [pw, setPw] = useState("");
+  const router = useRouter();
+  const onKeyUp = (e) => {
+    // console.log(e.target.value);
+    setPw(e.target.value);
+    // router.push("/home");
+  };
+
+  const loginEnter = (props) => {
+    if (props.key === "Enter") {
+      handleLogin();
+    }
+  };
+  const [showPassword, setShowPassword] = React.useState(false);
+
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
+
+  const handleLogin = (e) => {
+    const str = md5(pw);
+    switch (loginType) {
+      case "member":
+        if (
+          pw === '' ||
+          str === process.env.NEXT_PUBLIC_MEMBER_LOGIN_1 ||
+          str === process.env.NEXT_PUBLIC_MEMBER_LOGIN_2
+        ) {
+          setLoginType("member");
+          retrieve();
+        }
+        break;
+      case "calendar":
+        if (
+          pw === '' ||
+          str === process.env.NEXT_PUBLIC_CALENDAR_LOGIN_1 ||
+          str === process.env.NEXT_PUBLIC_CALENDAR_LOGIN_2
+        ) {
+          setLoginType("calendar");
+          router.push("/calendarpg");
+          return
+        }
+        break;
+      case "administrator":
+        if (
+          pw === '' ||
+          str === process.env.NEXT_PUBLIC_ADMIN_LOGIN_1 ||
+          str === process.env.NEXT_PUBLIC_ADMIN_LOGIN_2
+        ) {
+          setLoginType("administrator");
+          retrieve();
+        }
+        break;
+    }
+  };
+
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.down("md"));
   let indexPic = "indexPic";
@@ -34,26 +113,39 @@ export default function Home() {
     ih = "225";
   }
 
-  useEffect(() => {
-    // setCrud(<Crud />);
-  }, []);
+  function retrieve() {
+    const getPgs = async () => {
+      let parseQuery = new Parse.Query("Page");
+      const res = await parseQuery.findAll();
+      const pages = res.map((page) => ({ name: page.get("name") }));
+      const content = res.map((page) => ({ name: page.get("content") }));
+      let str,
+        pgsData = {};
+      for (let i in pages) {
+        str = pages[i]["name"];
+        if (loginType && str === "calendar" && loginType === "calendar") {
+          pgsData[str] = content[i]["name"];
+        } else if (loginType && loginType !== "calendar") {
+          pgsData[str] = content[i]["name"];
+        }
+      }
+      pgsData['type'] = loginType
+      sessionStorage.setItem('pgsData', JSON.stringify(pgsData))
+      setPages(pgsData);
+      console.log(loginType)
+      if(loginType === 'administrator') {
+        router.push("/admin");
+      } else {
+        router.push("/home");
+      }
+    };
+    getPgs();
+  }
   return (
     <>
-      <div
-        style={{
-          zIndex: -1,
-          position: "fixed",
-          width: "100vw",
-          height: "100vw",
-          backgroundImage: `url("bg.gif")`,
-        }}
-      >
-        {/* <Image src="/Sand.jpg" alt="Sand" layout="fill" objectFit="cover" /> */}
-      </div>
-
       <Container>
         <Box display="flex" justifyContent="center" sx={{ p: 4 }}>
-          <Image src="/images/logoMainSm.png" width={"400"} height="89" />
+          <Image src="/images/logoMainSm.png" width={"400"} height="89" alt="" />
         </Box>
         <Grid
           container
@@ -71,20 +163,51 @@ export default function Home() {
             flexDirection={"column"}
             alignItems="center"
           >
-            <Box
-              display="flex"
-              justifyContent="center"
-              sx={{ p: 1, margin: `0px 0px 0px 0px` }}
-            >
-              <input
-                name="password"
-                type="password"
-                id="password"
-                size="15"
-                onKeyUpCapture={loginEnter}
-              />
-
-              {/* <span className="eyeIcon" onClick={pwToggle}>
+            <Box sx={{ margin: `0px 150px 0px 0px` }}>
+              <Box
+                display="flex"
+                justifyContent="center"
+                sx={{ p: 1, width: 220, margin: `0px 0px 0px 0px` }}
+              >
+                <FormControl fullWidth>
+                  <InputLabel id="demo-simple-select-label">User Type</InputLabel>
+                  <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={loginType}
+                    label="User Type"
+                    onChange={handleChange}
+                  >
+                    <MenuItem value={"member"}>Member</MenuItem>
+                    <MenuItem value={"calendar"}>Calendar</MenuItem>
+                    <MenuItem value={"administrator"}>Administrator</MenuItem>
+                  </Select>
+                </FormControl>
+              </Box>
+              <Box display="flex" justifyContent="center" sx={{ p: 1, margin: `0px 0px 0px 0px` }}>
+                <FormControl sx={{ m: 0, width: "25ch" }} variant="outlined">
+                  <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+                  <OutlinedInput
+                    onKeyUp={onKeyUp}
+                    onKeyUpCapture={loginEnter}
+                    id="outlined-adornment-password"
+                    type={showPassword ? "text" : "password"}
+                    endAdornment={
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="toggle password visibility"
+                          onClick={handleClickShowPassword}
+                          onMouseDown={handleMouseDownPassword}
+                          edge="end"
+                        >
+                          {showPassword ? <VisibilityOff /> : <Visibility />}
+                        </IconButton>
+                      </InputAdornment>
+                    }
+                    label="Password"
+                  />
+                </FormControl>
+                {/* <span className="eyeIcon" onClick={pwToggle}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   aria-hidden="true"
@@ -100,23 +223,17 @@ export default function Home() {
                   />
                 </svg>
               </span> */}
-            </Box>
-            <Box
-              display="flex"
-              justifyContent="center"
-              sx={{ p: 1, margin: `0px 0px 0px 0px` }}
-            >
-              <button onClick={handleLogin} value="Submit">
-                SUBMIT
-              </button>
-            </Box>
-            <Grid
-              item
-              // spacing={{ xs: 2, md: 3 }}
-              justifyContent="center"
-              sx={{ margin: `20px 0px 0px 0px`, width: "100%" }}
-              columns={{ xs: 2, sm: 8, md: 12 }}
-            >
+              </Box>
+
+              <Box display="flex" justifyContent="center" sx={{ p: 1, margin: `0px 0px 0px 0px` }}>
+                <Button
+                  variant="outlined"
+                  onClick={handleLogin}
+                  sx={{ border: "1px solid #bbb", color: "#555" }}
+                >
+                  Submit
+                </Button>
+              </Box>
               <Box alignItems="center" align="center" sx={innerSx}>
                 267 Pacific Coast Hwy
               </Box>
@@ -138,17 +255,7 @@ export default function Home() {
                   Get Driving Directions (Google){" "}
                 </a>
               </Box>
-              <Box align="center" sx={innerSx}>
-                <a href="ppbc_directions.doc" target="_blank" className="main">
-                  Download Directions (doc)
-                </a>
-              </Box>
-              <Box align="center" className="main" sx={innerSx}>
-                <a target="_blank" href="images/pcbmap.pdf">
-                  View Map
-                </a>
-              </Box>
-            </Grid>
+            </Box>
           </Grid>
           <Grid
             item
@@ -156,70 +263,15 @@ export default function Home() {
             sm={4}
             md={4}
             display="flex"
-            // flexDirection={"column"}
+            flexDirection={"column"}
             alignItems="center"
           >
-            <Image
-              name=""
-              src={`/images/${indexPic}.png`}
-              width={iw}
-              height={ih}
-              alt=""
-            />
+            <Box sx={{ margin: `0px 0px 0px 75px` }}>
+              <Image name="" src={`/images/${indexPic}.png`} width={iw} height={ih} alt="" />
+            </Box>
           </Grid>
         </Grid>
       </Container>
-      {/* <main className={styles.main}>
-        <div className={styles.description}>
-          <App />
-        </div>
-        <div className={styles.center}>
-          <input
-            className={styles.input}
-            onChange={(e) => setUserName(e.target.value)}
-            placeholder="user name"
-          />
-          <input
-            className={styles.input}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="password"
-            type="password"
-          />
-
-          <button onClick={handleLogin}>Log In</button>
-        </div>
-        <div className={styles.grid}></div>
-      </main> */}
     </>
   );
-}
-
-{
-  /* <Head>
-        <title>Create Next App</title>
-        <meta name="description" content="Generated by create next app" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      <main className={styles.main}>
-        <div className={styles.description}>{crud}</div>
-
-        <div className={styles.center}>
-          <input
-            className={styles.input}
-            onChange={(e) => setUserName(e.target.value)}
-            placeholder="user name"
-          />
-          <input
-            className={styles.input}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="password"
-            type="password"
-          />
-
-          <button onClick={handleLogin}>Log In</button>
-        </div>
-
-        <div className={styles.grid}></div>
-      </main> */
 }

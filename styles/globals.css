@@ -2,7 +2,35 @@
    v2.0 | 20110126
    License: none (public domain)
 */
+/* @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400&family=Poppins:wght@300;400&display=swap'); */
 
+/* @import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400&family=Poiret+One&family=Poppins:wght@300;400&display=swap'); */
+/* @import url('https://fonts.googleapis.com/css2?family=Poiret+One&display=swap'); */
+
+@import url('https://fonts.googleapis.com/css2?family=Didact+Gothic&family=Poiret+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Reem+Kufi+Ink&display=swap');
+
+
+
+
+.link {
+	padding:0 10px;
+	font-kerning: none;
+	text-decoration: none!important;
+	font-family: 'Reem Kufi Ink', sans-serif;
+	/* font-family: 'Poiret One', cursive; */
+	/* font-family: Poiret+One;   */
+	/* font-family: 'Josefin Sans', sans-serif; */
+	color: #587429;
+	font-weight: 300;
+	font-size: 24px;  
+    letter-spacing: -0.05em;
+	/* text-shadow: 1px 1px 1px #3c4a2f; */
+	/* text-shadow: rgba(red, green, blue, alpha); */
+  }
+
+  v
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -30,6 +58,7 @@ footer, header, hgroup, menu, nav, section {
 }
 body {
 	line-height: 1;
+	font-family: 'Open Sans', sans-serif;
 }
 ol, ul {
 	list-style: none;
@@ -46,3 +75,88 @@ table {
 	border-collapse: collapse;
 	border-spacing: 0;
 }
+
+.hRule {
+	width:800px;
+	height: 1px;
+	background-color: #587429;
+}
+body {
+	background-image: url("/bg.gif");
+  }
+  #logout-link {
+	color: #587429;
+	cursor: pointer;
+	font-size: 11px;  
+	/* text-shadow: 1px 1px #587429; */
+  }
+
+  a {
+	color: #5b7d22;
+	text-decoration: none!important;
+  }
+  #main-text-img {
+	width: 240px;
+    margin-top: 25px;
+  }
+
+  p {
+	padding: 3px 0px;
+  }
+
+  .text-container {
+	margin: 5px 100px 50px;
+	line-height: 1.4em;
+  }
+
+  .rbc-event {
+	font-size: small;
+  }
+
+  #homeHouseTop {
+	width: 100px;
+  }
+  .admin-link {
+	padding:0 10px 0 10px;
+	cursor: pointer;
+	color: #5b7d22;
+	font-size: 14px;  
+  }
+  .board-hidden {
+	display: none;
+  }
+  .ql-align-center {
+	text-align:center!important;
+  }
+   /* .q-home .ql-editor, .q-news .ql-editor, .text-container-news{
+	text-align:center!important;
+  } */
+  /* .text-container-news {
+	text-align: center;
+  } */
+
+  
+
+  @media screen and (max-width:650px) {
+	#menu-wrapper {
+		text-align: center;
+		line-height: 1.9em;
+		width: 400px;
+	}
+	.css-66wkxv {
+		display: inherit;
+	  }
+	  .MuiGrid-root {
+		display: inherit;
+	  }
+	  /* .css-x1z1b5 {
+		margin:0;
+	  }
+	  .css-x1z1b5 img {
+		width: 70%;
+		height: 70%;
+	  }
+	  .css-12gcyz-MuiGrid-root {
+		margin: 0;
+	  } */
+  }

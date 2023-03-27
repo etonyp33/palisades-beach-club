@@ -1,24 +1,28 @@
-import React from "react";
-import { Box, Button, Container, Grid, Typography } from "@mui/material";
-// import RosterMount from "./RosterMount";
-import NavBar from "./NavBar";
-// sessionStorage.pg = 'roster'
+import { useState, useEffect, useContext } from "react";
+import { Box, Container } from "@mui/material";
+import { useRouter } from "next/router";
+import { Pages_data } from "../context/context";
+import { getNavBar } from "./NavBarComponent";
+const Roster = () => {
+  const router = useRouter();
+  const { pages } = useContext(Pages_data);
+  const [navMenu, setNavMenu] = useState("");
 
-const Roster = () => (
-  <Container>
-    <Box display="flex" justifyContent="center" sx={{ p: 4 }}>
-      <NavBar />
-    </Box>
-    Roster
-  </Container>
+  useEffect(() => {
+    const navBar = getNavBar(pages);
+    setNavMenu(navBar);
+  }, []);
+  return (
+    <Container>
+      <Box display="flex" justifyContent="center" sx={{ p: 0 }}>
+        {navMenu}
+      </Box>
 
-  // <div className="container">
-  //   <iframe
-  //     id="rosterIframe"
-  //     src="http://tonypweb.com/pbc/files/roster.pdf"
-  //   ></iframe>
-  //   {/* <RosterMount /> */}
-  // </div>
-);
+      <Box display="flex" justifyContent="center" className="text-container">
+        <iframe id="rosterIframe" src="files/roster.pdf" width={"1200px"} height={"800px"}></iframe>
+      </Box>
+    </Container>
+  );
+};
 
 export default Roster;

@@ -1,3 +1,5 @@
+
 export default function Login() {
-  return <>LOGIN</>;
+  // console.log(process.env.NEXT_PUBLIC_MEMBER_LOGIN_1)
+  return <>{process.env.NEXT_PUBLIC_MEMBER_LOGIN_1}</>;
 }

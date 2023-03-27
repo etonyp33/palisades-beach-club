@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useMemo, useEffect, useContext  } from "react";
+import React, { useState, useCallback, useMemo, useEffect } from "react";
 import Parse from "../parse";
 import PropTypes from "prop-types";
 import Dialog from "@mui/material/Dialog";
@@ -8,33 +8,36 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 
 import { Box, Button, Container, Grid, Typography } from "@mui/material";
-import NavBar from "./NavBarAdmin";
+import NavBarCalendar from "./NavBarCalendar";
 
+import { useRouter } from "next/router";
 import { Calendar, Views, DateLocalizer, momentLocalizer } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
-import { Pages_data } from "../context/context";
-import { getLogin } from "./data";
-import moment from "moment";
 
+import moment from "moment";
+import {getLogin } from './data'
+import Link from "next/link";
 const pgName = "calendar";
 
 const localizer = momentLocalizer(moment);
 
 export default function CalendarComponent() {
   const [open, setOpen] = React.useState(false);
-  const { pages, setPages } = useContext(Pages_data);
   const [title, setTitle] = React.useState("");
   const [start, setStart] = React.useState("");
   const loginType = getLogin();
+  // console.log('CalBasic ltype', loginType)
+  const router = useRouter();
   useEffect(() => {
-    try {
-      if (loginType !== "member" && loginType !== "administrator") {
-        router.push("/");
-      }
-    } catch (error) {
-      router.push("/");
-    }
+    // try {
+    //   if (!loginType) {
+    //     router.push("/");
+    //   }
+    // } catch (error) {
+    //   router.push("/");
+    // }
   }, []);
+
   const [myEvents, setEvents] = useState([]);
 
   useEffect(() => {
@@ -95,31 +98,6 @@ export default function CalendarComponent() {
     );
   }
 
-  const saveEvent = async (start, end, title) => {
-    const event = new Parse.Object("Event");
-    event.set("title", title);
-    event.set("start", start);
-    event.set("end", end);
-    try {
-      //Save the Object
-      let result = await event.save();
-      alert("New object created with objectId: " + result.id);
-    } catch (error) {
-      alert("Failed to create new object, with error code: " + error.message);
-    }
-  };
-  const handleSelectSlot = useCallback(
-    ({ start, end }) => {
-      const title = window.prompt("New Event name");
-      console.log(start, end);
-      if (title) {
-        setEvents((prev) => [...prev, { start, end, title }]);
-        saveEvent(start, end, title);
-      }
-    },
-    [setEvents]
-  );
-
   const eventClick = (event) => {
     console.log(event);
     let dt = new Date(event.start);
@@ -145,11 +123,10 @@ export default function CalendarComponent() {
     }),
     []
   );
+  console.log(<NavBarCalendar />)
   return (
     <Container>
-      <Box display="flex" justifyContent="center" sx={{ p: 0 }}>
-        <NavBar loginType={loginType} />
-      </Box>
+      <NavBarCalendar />
       <Box
         display="flex"
         justifyContent="center"
@@ -163,7 +140,7 @@ export default function CalendarComponent() {
           endAccessor="end"
           style={{ height: 500, width: 720 }}
           onSelectEvent={handleSelectEvent}
-          onSelectSlot={handleSelectSlot}
+          // onSelectSlot={handleSelectSlot}
           selectable
           scrollToTime={scrollToTime}
         />
