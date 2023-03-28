@@ -136,17 +136,18 @@ body {
   } */
 
   
-  @media screen and (max-width:500px) {
+
+  @media screen and (max-width:650px) {
 	#menu-wrapper {
 		text-align: center;
 		line-height: 1.9em;
 		width: 400px;
 	}
 	.css-66wkxv {
-		display: inherit;
+		display: -webkit-inline-box;
 	  }
 	  .MuiGrid-root {
-		display: inherit;
+		display: -webkit-inline-box;
 	  }
 	  .css-x1z1b5 {
 		margin:0;
@@ -157,5 +158,15 @@ body {
 	  }
 	  .css-12gcyz-MuiGrid-root {
 		margin: 0;
+	  }
+	  #main-text-img {
+		display: grid;
+		width: 50%;
+	  }
+	  .css-x1z1b5 {
+		width: 75%;
+		height: 75%;
+		margin: auto;
+		padding-left: 70px;
 	  }
   }
