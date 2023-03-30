@@ -152,10 +152,6 @@ body {
 	  .css-x1z1b5 {
 		margin:0;
 	  }
-	  .css-x1z1b5 img {
-		width: 80%;
-		height: 80%;
-	  }
 	  .css-12gcyz-MuiGrid-root {
 		margin: 0;
 	  }
@@ -164,18 +160,15 @@ body {
 		width: 50%;
 	  }
 	  .css-x1z1b5 {
-		width: 75%;
-		height: 75%;
-		margin: auto;
-		padding-left: 70px;
+		margin-left: 110px;
 	  }
-	  .css-qd5mg9 img {
+	  /* .css-qd5mg9 img {
 		width: 50%;
 		height: 50%;
 		margin-left: -140px;
-	  }
-	.css-187r5vp-MuiGrid-root {
-		margin-left: 70px;
+	  } */
+	.css-187r5vp-MuiGrid-root, .css-qd5mg9 {
+		margin-left: 140px;
 
 	}
 
