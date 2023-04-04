@@ -1,0 +1,132 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url("https://fonts.googleapis.com/css2?family=Didact+Gothic&family=Zen+Kaku+Gothic+New:wght@300;400&display=swap");
+
+html {
+  scroll-behavior: smooth;
+}
+.heading {
+  font-weight: 400;
+  font-size: 32px;
+  font-family: "Zen Kaku Gothic New", sans-serif;
+  color: #587429;
+}
+.heading-nav {
+  font-weight: 300;
+  font-family: "Zen Kaku Gothic New", sans-serif;
+  font-size: 16px;
+  color: #587429;
+}
+.custom-img-landing {
+  background-image: url("./bg_house.png");
+  /* background-image: url('./Sand.jpg'); */
+}
+.custom-img {
+  background-image: url("./bg_house.png");
+  /* background-image: url('./Sand.jpg'); */
+}
+.nav-outer {
+  background-color: #587429;
+  color: white;
+}
+.landing-box {
+  border-radius: 5px;
+  background-color: white;
+  box-shadow: black;
+  width: 400px;
+}
+
+.main-box {
+  border-radius: 5px;
+  background-color: white;
+  box-shadow: black;
+  /* min-width: 900px; */
+}
+
+.hd-text-bold {
+  font-weight: 400;
+  font-family: "Zen Kaku Gothic New", sans-serif;
+  font-size: 22px;
+  color: #587429;
+}
+.formatted-link {
+  color: #587429;
+}
+.formatted-link:hover {
+  text-decoration: underline;
+}
+
+.basic-page {
+  min-width: 400px;
+  max-width: 1200px;
+  width:auto;
+}
+.page-header {
+  margin-top: 50px;
+  margin-bottom: 5px;
+}
+.basic-page hr {
+  margin-bottom: 20px;
+}
+p {
+  min-width: 200px;
+  /* max-width: 800px; */
+}
+.main-box {
+  min-width: 460px;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x:hidden;
+  /* overflow: scroll;
+   */
+}
+
+#container-home .main-box {
+  height:auto;
+}
+#container-home {
+  padding-top: 100px;
+  padding-bottom: 50px;
+
+}
+.home-left {
+  min-height:460px;
+}
+#container-gallery iframe {
+  width:auto;
+
+}
+/* if device has touch screen */
+@media (any-pointer: coarse) {
+  /* .basic-page {
+    margin: 0 0 0 100px;
+    color: rgb(61, 12, 145);
+  } */
+  .bgUnderlay {
+    background-color: white;
+    box-shadow: none;
+  }
+  .main-box {
+    margin-left: 50px;
+  }
+  .custom-img-landing, #container-home {
+    background-image: none;
+  }
+  #container-home .main-box {
+    margin-left: 0px;
+  }
+  #container-landing div {
+    text-align: center;
+  }
+}
+
+/* if device has no touch screen */
+/* @media (any-pointer: fine) {
+  
+  .basic-page {
+    color: rgb(128, 0, 122);
+  }
+} */
+

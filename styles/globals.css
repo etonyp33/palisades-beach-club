@@ -1,175 +1,236 @@
-/* http://meyerweb.com/eric/tools/css/reset/ 
-   v2.0 | 20110126
-   License: none (public domain)
-*/
-/* @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400&family=Poppins:wght@300;400&display=swap'); */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-/* @import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400&family=Poiret+One&family=Poppins:wght@300;400&display=swap'); */
-/* @import url('https://fonts.googleapis.com/css2?family=Poiret+One&display=swap'); */
+@import url("https://fonts.googleapis.com/css2?family=Didact+Gothic&family=Zen+Kaku+Gothic+New:wght@300;400&display=swap");
 
-@import url('https://fonts.googleapis.com/css2?family=Didact+Gothic&family=Poiret+One&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Reem+Kufi+Ink&display=swap');
-
-
-
-
-.link {
-	padding:0 10px;
-	font-kerning: none;
-	text-decoration: none!important;
-	font-family: 'Reem Kufi Ink', sans-serif;
-	/* font-family: 'Poiret One', cursive; */
-	/* font-family: Poiret+One;   */
-	/* font-family: 'Josefin Sans', sans-serif; */
-	color: #587429;
-	font-weight: 300;
-	font-size: 24px;  
-    letter-spacing: -0.05em;
-	/* text-shadow: 1px 1px 1px #3c4a2f; */
-	/* text-shadow: rgba(red, green, blue, alpha); */
-  }
-
-  v
-html, body, div, span, applet, object, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-a, abbr, acronym, address, big, cite, code,
-del, dfn, em, img, ins, kbd, q, s, samp,
-small, strike, strong, sub, sup, tt, var,
-b, u, i, center,
-dl, dt, dd, ol, ul, li,
-fieldset, form, label, legend,
-table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, embed, 
-figure, figcaption, footer, header, hgroup, 
-menu, nav, output, ruby, section, summary,
-time, mark, audio, video {
-	margin: 0;
-	padding: 0;
-	border: 0;
-	font-size: 100%;
-	font: inherit;
-	vertical-align: baseline;
+html {
+  scroll-behavior: smooth;
 }
-/* HTML5 display-role reset for older browsers */
-article, aside, details, figcaption, figure, 
-footer, header, hgroup, menu, nav, section {
-	display: block;
+.heading {
+  font-weight: 400;
+  font-size: 32px;
+  font-family: "Zen Kaku Gothic New", sans-serif;
+  color: #587429;
 }
-body {
-	line-height: 1;
-	font-family: 'Open Sans', sans-serif;
+.heading-nav {
+  font-weight: 300;
+  font-family: "Zen Kaku Gothic New", sans-serif;
+  font-size: 16px;
+  color: #587429;
 }
-ol, ul {
-	list-style: none;
+.custom-img-landing {
+  background-image: url("./bg_house.png");
+  /* background-image: url('./Sand.jpg'); */
 }
-blockquote, q {
-	quotes: none;
+.custom-img {
+  background-image: url("./bg_house.png");
+  /* background-image: url('./Sand.jpg'); */
 }
-blockquote:before, blockquote:after,
-q:before, q:after {
-	content: '';
-	content: none;
+.nav-outer {
+  background-color: #587429;
+  color: white;
 }
-table {
-	border-collapse: collapse;
-	border-spacing: 0;
+.landing-box {
+  border-radius: 5px;
+  background-color: white;
+  box-shadow: black;
+  width: 400px;
 }
 
-.hRule {
-	width:800px;
-	height: 1px;
-	background-color: #587429;
+.main-box {
+  border-radius: 5px;
+  background-color: white;
+  box-shadow: black;
+  /* min-width: 900px; */
 }
-body {
-	background-image: url("/bg.gif");
-  }
-  #logout-link {
-	color: #587429;
-	cursor: pointer;
-	font-size: 11px;  
-	/* text-shadow: 1px 1px #587429; */
-  }
 
-  a {
-	color: #5b7d22;
-	text-decoration: none!important;
-  }
-  #main-text-img {
-	width: 240px;
-    margin-top: 25px;
-  }
+.hd-text-bold {
+  font-weight: 400;
+  font-family: "Zen Kaku Gothic New", sans-serif;
+  font-size: 22px;
+  color: #587429;
+}
+.formatted-link {
+  color: #587429;
+  cursor:pointer;
+}
+.formatted-link:hover {
+  text-decoration: underline;
+}
 
-  p {
-	padding: 3px 0px;
-  }
+.basic-page {
+  min-width: 400px;
+  max-width: 1200px;
+  width: auto;
+}
+.page-header {
+  margin-top: 50px;
+  margin-bottom: 5px;
+}
+.basic-page hr {
+  margin-bottom: 20px;
+}
+p {
+  min-width: 200px;
+  /* max-width: 800px; */
+}
+.main-box {
+  min-width: 460px;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  /* overflow: scroll;
+   */
+}
 
-  .text-container {
-	margin: 5px 100px 50px;
-	line-height: 1.4em;
-  }
+#container-home .main-box,
+#container-calendar .main-box {
+  /* height: auto; */
+  /* width: "100px"; */
+  height: auto;
+  width: auto;
+}
+#container-home,
+#container-calendar {
+  padding-top: 100px;
+  padding-bottom: 50px;
+}
 
-  .rbc-event {
-	font-size: small;
-  }
+#container-calendar.calendar-only {
+  padding-top: 0px;
+  padding-bottom: 50px;
+}
+#container-calendar .page-header {
+  margin: 0;
+}
 
-  #homeHouseTop {
-	width: 100px;
-  }
-  .admin-link {
-	padding:0 10px 0 10px;
-	cursor: pointer;
-	color: #5b7d22;
-	font-size: 14px;  
-  }
-  .board-hidden {
-	display: none;
-  }
-  .ql-align-center {
-	text-align:center!important;
-  }
-   /* .q-home .ql-editor, .q-news .ql-editor, .text-container-news{
-	text-align:center!important;
+.home-left {
+  min-height: 460px;
+}
+#container-gallery iframe {
+  width: 1200px;
+}
+
+.menu-divider {
+  margin-top:2px;
+  padding: 0 2px 0 2px;
+  color: #587429;
+}
+
+.top-nav-link {
+  margin-top: 7px;
+}
+
+
+
+/* ///////////////////////////// */
+
+
+
+/* ///////////////////////////// */
+
+
+
+/* ///////////////////////////// */
+
+
+/* ///////////////////////////// */
+/* if device has touch screen */
+@media (any-pointer: coarse) {
+  /* .basic-page {
+    margin: 0 0 0 100px;
+    color: rgb(61, 12, 145);
   } */
-  /* .text-container-news {
-	text-align: center;
-  } */
-
-  
-
-  @media screen and (max-width:650px) {
-	#menu-wrapper {
-		text-align: center;
-		line-height: 1.9em;
-		width: 400px;
-	}
-	.css-66wkxv {
-		display: -webkit-inline-box;
-	  }
-	  .MuiGrid-root {
-		display: -webkit-inline-box;
-	  }
-	  .css-x1z1b5 {
-		margin:0;
-	  }
-	  .css-12gcyz-MuiGrid-root {
-		margin: 0;
-	  }
-	  #main-text-img {
-		display: grid;
-		width: 50%;
-	  }
-	  .css-x1z1b5 {
-		margin-left: 110px;
-	  }
-	  /* .css-qd5mg9 img {
-		width: 50%;
-		height: 50%;
-		margin-left: -140px;
-	  } */
-	.css-187r5vp-MuiGrid-root, .css-qd5mg9 {
-		margin-left: 140px;
-
-	}
-
+  .bgUnderlay {
+    background-color: white;
+    box-shadow: none;
   }
+  .main-box {
+    margin-left: 50px;
+  }
+  .custom-img-landing,
+  #container-home {
+    background-image: none;
+  }
+  #container-home .main-box {
+    margin-left: 0px;
+  }
+  #container-landing div {
+    text-align: center;
+  }
+}
+
+#container-gallery iframe {
+  width: 350px;
+  height: 750px;
+  overflow-y: auto;
+}
+
+#container-roster iframe {
+  width: 350px;
+  height: 750px;
+  overflow-y: auto;
+}
+
+.rbc-calendar {
+  width: auto !important;
+}
+
+/* if device has no touch screen */
+@media (any-pointer: fine) {
+  @media (min-width: 800px) {
+    #container-gallery iframe {
+      width: 850px;
+      height: 750px;
+      overflow-y: auto;
+    }
+    #container-roster iframe {
+      width: 1000px;
+      height: 750px;
+      overflow-y: auto;
+    }
+
+    #container-home .main-box,
+    #container-calendar .main-box {
+      height: auto;
+    }
+    #container-home,
+    #container-calendar {
+      padding-top: 100px;
+      padding-bottom: 50px;
+    }
+    #container-calendar .page-header {
+      margin: 0;
+    }
+  }
+  @media (min-width: 600px) and (max-width: 800px) {
+    #container-gallery iframe {
+      width: 650px;
+      height: 750px;
+      overflow-y: auto;
+    }
+    #container-roster iframe {
+      width: 650px;
+      height: 750px;
+      overflow-y: auto;
+    }
+
+    #container-home .main-box,
+    #container-calendar .main-box {
+      height: auto;
+      /* width: 200px; */
+    }
+    #container-home,
+    #container-calendar {
+      padding-top: 100px;
+      padding-bottom: 50px;
+    }
+    #container-calendar .page-header {
+      margin: 0;
+    }
+    .rbc-calendar {
+      width: auto !important;
+    }
+  }
+}

@@ -88,10 +88,6 @@ export function getCurrentPage(pages) {
 }
 
 const decodeBase64 = (data) => {
-  try {
-    return Buffer.from(data, "base64").toString("ascii");
-  } catch (error) {
-    return ''
-  }
+  return Buffer.from(data, "base64").toString("ascii");
 };
 

@@ -1,26 +1,23 @@
 import React, { useState, useCallback, useMemo, useEffect, useContext  } from "react";
-import Parse from "../parse";
-import PropTypes from "prop-types";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
+import Nav from "./nav";
+import { Box, Container, Grid } from "@mui/material";
+import { getData, getBoard } from "./data";
+import Image from "next/image";
+import { Pages_data } from "../context/context";
+const pgName = "calendar";
 
-import { Box, Button, Container, Grid, Typography } from "@mui/material";
-import NavBar from "./NavBarAdmin";
+import { useRouter } from "next/router";
+import Parse from "../parse";
 
 import { Calendar, Views, DateLocalizer, momentLocalizer } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
-import { Pages_data } from "../context/context";
-import { getLogin } from "./data";
-import moment from "moment";
 
-const pgName = "calendar";
+import moment from "moment";
+import { getLogin } from "./data";
 
 const localizer = momentLocalizer(moment);
 
-export default function CalendarComponent() {
+const CalendarAdmin = () => {
   const [open, setOpen] = React.useState(false);
   const { pages, setPages } = useContext(Pages_data);
   const [title, setTitle] = React.useState("");
@@ -100,6 +97,14 @@ export default function CalendarComponent() {
     event.set("title", title);
     event.set("start", start);
     event.set("end", end);
+    const sdt = new Date(start)
+    const edt = new Date(end)
+    const sDate = start.toString().split(' ')
+    const eDate = end.toString().split(' ')
+    console.log(sDate)
+    console.log(eDate)
+    // console.log(title, start, end)
+    return
     try {
       //Save the Object
       let result = await event.save();
@@ -146,33 +151,38 @@ export default function CalendarComponent() {
     []
   );
   return (
-    <Container>
-      <Box display="flex" justifyContent="center" sx={{ p: 0 }}>
-        <NavBar loginType={loginType} />
-      </Box>
-      <Box
-        display="flex"
-        justifyContent="center"
-        // width={"100%"}
-        sx={{ p: 1, margin: `0px 0px 0px 0px` }}
+    <>
+      <Nav />
+      <div
+        id={`container-${pgName}`}
+        className="flex items-center justify-center h-screen bg-fixed bg-center bg-cover custom-img"
       >
-        <Calendar
-          localizer={localizer}
-          events={myEvents}
-          startAccessor="start"
-          endAccessor="end"
-          style={{ height: 500, width: 720 }}
-          onSelectEvent={handleSelectEvent}
-          onSelectSlot={handleSelectSlot}
-          selectable
-          scrollToTime={scrollToTime}
-        />
-      </Box>
-      <SimpleDialog open={open} onClose={handleClose} />
-    </Container>
-  );
-}
+        <div className="absolute top-0 left-0 right-0 bottom-0  bg-black/40 z-[2] bgUnderlay" />
 
-CalendarComponent.propTypes = {
-  localizer: PropTypes.instanceOf(DateLocalizer),
+        <div className="sm:flex z-[2] main-box p-5 m-auto">
+          <div className="flex flex-col text-center p-5 basic-page">
+            <div className="hd-text-bold formatted-link page-header">Calendar</div>
+            <hr></hr>
+            <div className="w-100">
+              <Calendar
+                localizer={localizer}
+                events={myEvents}
+                startAccessor="start"
+                endAccessor="end"
+                style={{ height: 500, width: 720 }}
+                onSelectEvent={handleSelectEvent}
+                onSelectSlot={handleSelectSlot}
+                selectable
+                scrollToTime={scrollToTime}
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  );
 };
+
+export default CalendarAdmin;
+// / ml-[-10rem] mt-[-10rem]
+// <h2 className="text-5xl font-bold">Heading</h2>
