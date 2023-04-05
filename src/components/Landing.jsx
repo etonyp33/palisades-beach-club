@@ -64,7 +64,7 @@ const Landing = () => {
 
   const handleLogin = (e) => {
     let ltype = false;
-    const str = md5(pw);
+    const str = md5(pw.toLowerCase());
     if (
       str === process.env.NEXT_PUBLIC_MEMBER_LOGIN_1 ||
       str === process.env.NEXT_PUBLIC_MEMBER_LOGIN_2
@@ -81,7 +81,7 @@ const Landing = () => {
     )
       ltype = "administrator";
 
-    ltype = "administrator";
+    // ltype = "administrator";
     switch (ltype) {
       case "member":
         sessionStorage.setItem("lt", "member");

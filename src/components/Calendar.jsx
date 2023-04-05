@@ -94,17 +94,19 @@ const CalendarAdmin = () => {
 
   const saveEvent = async (start, end, title) => {
     const event = new Parse.Object("Event");
+    const sDate = start.toString().split(' ')
+    const eDate = end.toString().split(' ')
+
+    // if()
+
+    console.log(sDate)
+    console.log(eDate)
+    // console.log(title, stArr, edArr)
+    return
+    
     event.set("title", title);
     event.set("start", start);
     event.set("end", end);
-    const sdt = new Date(start)
-    const edt = new Date(end)
-    const sDate = start.toString().split(' ')
-    const eDate = end.toString().split(' ')
-    console.log(sDate)
-    console.log(eDate)
-    // console.log(title, start, end)
-    return
     try {
       //Save the Object
       let result = await event.save();
