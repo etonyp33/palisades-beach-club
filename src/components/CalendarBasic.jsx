@@ -37,40 +37,68 @@ const CalendarBasic = () => {
     retrieve();
   }, []);
 
+  const handleClose = () => {
+    onClose();
+  };
  
   function SimpleDialog(props) {
     const { onClose, open } = props;
 
     const handleClose = () => {
-      onClose();
+      setOpen(false);
     };
 
+    let arr1,
+      arr2,
+      arr3,
+      time = "",
+      msg1 = "",
+      msg2 = "",
+      msg3 = "";
+    try {
+      arr1 = title.split("[");
+      arr2 = arr1[1].split("]");
+      arr3 = arr2[1].split("-");
+      time = arr1[0];
+      msg1 = arr2[0];
+      msg2 = arr3[0];
+      msg3 = arr3[1];
+    } catch (error) {
+      try {
+        msg1 = arr1[0];
+      } catch (error) {}
+    }
     return (
       <Dialog maxWidth={"md"} open={open} onClose={handleClose}>
-        <DialogTitle>{title}</DialogTitle>
-        <DialogContent>
-          <DialogContentText>{title}</DialogContentText>
-        </DialogContent>
-        <DialogContent>
-          <DialogContentText>{start}</DialogContentText>
-        </DialogContent>
+        <DialogTitle>Event</DialogTitle>
+        <Box
+          component="form"
+          flexDirection={"column"}
+          sx={{
+            "& > :not(style)": { m: 1, width: "350px", textAlign: "center" },
+          }}
+          noValidate
+          autoComplete="off"
+        >
+          <DialogContent>
+            <DialogContentText>{time}</DialogContentText>
+            <DialogContentText>{msg1}</DialogContentText>
+            <DialogContentText>{msg2}</DialogContentText>
+            <DialogContentText>{msg3}</DialogContentText>
+          </DialogContent>
+        </Box>
         <DialogActions>
-          <Button onClick={handleClose}>Close</Button>
+          <Button variant="outlined" onClick={handleClose}>
+            Close
+          </Button>
         </DialogActions>
       </Dialog>
     );
   }
 
   const eventClick = (event) => {
-    console.log(event);
-    let dt = new Date(event.start);
     setTitle(event.title);
-    let d = dt.getDay();
-    let m = dt.getMonth();
-    let y = dt.getFullYear();
-    setStart(d);
     setOpen(true);
-    window.alert(JSON.stringify(event));
   };
 
   const handleSelectEvent = useCallback(
@@ -113,36 +141,6 @@ const CalendarBasic = () => {
     getEvents();
   }
 
-  function SimpleDialog(props) {
-    const { onClose, open } = props;
-
-    const handleClose = () => {
-      onClose();
-    };
-
-    return (
-      <Dialog maxWidth={"md"} open={open} onClose={handleClose}>
-        <DialogTitle>{title}</DialogTitle>
-        <DialogContent>
-          <DialogContentText>{title}</DialogContentText>
-        </DialogContent>
-        <DialogContent>
-          <DialogContentText>{start}</DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose}>Close</Button>
-        </DialogActions>
-      </Dialog>
-    );
-  }
-
-  // useEffect(() => {
-  //   try {
-  //     setData(dataObj["content"]);
-  //   } catch (error) {
-  //     router.push("/");
-  //   }
-  // }, []);
 
   return (
     <>
@@ -169,7 +167,9 @@ const CalendarBasic = () => {
             </div>
           </div>
         </div>
-      </div>
+      </div>     
+       <SimpleDialog  open={open} onClose={handleClose} />
+
     </>
   );
 };

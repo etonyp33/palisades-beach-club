@@ -164,9 +164,9 @@ const CalendarAdmin = () => {
     let dt = new Date(event.start);
     setTitle(event.title);
     setObjId(event.objectId);
-    const sDate = event.start.toString().split(" ");
+    // const sDate = event.start.toString().split(" ");
     //    console.log(sDate);
-    setStart(sDate[0] + " " + sDate[1] + " " + sDate[2] + " " + sDate[3] + " " + sDate[4]);
+    // setStart(sDate[0] + " " + sDate[1] + " " + sDate[2] + " " + sDate[3] + " " + sDate[4]);
     setOpen(true);
     // window.alert(JSON.stringify(event));
   };
@@ -329,12 +329,12 @@ const CalendarAdmin = () => {
               component="form"
               flexDirection={"column"}
               sx={{
-                "& > :not(style)": { m: 1, width: "500px", textAlign: "center" },
+                "& > :not(style)": { m: 1,  textAlign: "center" },
               }}
               noValidate
               autoComplete="off"
             >
-              <FormControl className="" sx={{margin:"auto"}}>
+              <FormControl className="" sx={{ margin: "auto" }}>
                 <RadioGroup
                   row
                   aria-labelledby="demo-radio-buttons-group-label"
@@ -426,17 +426,26 @@ const CalendarAdmin = () => {
     const handleDelete = () => {
       onClose(true);
     };
-    let time = "",
-      msg1 = false,
-      msg2 = false,
-      arr2;
-    let arr1 = title.split("/");
-    if (arr1[0]) time = arr1[0];
+    let arr1,
+      arr2,
+      arr3,
+      time = "",
+      msg1 = "",
+      msg2 = "",
+      msg3 = "";
     try {
-      arr2 = arr1[1].split("-");
-      if (arr2[0]) msg1 = arr2[0];
-      if (arr2[1]) msg2 = arr2[1];
-    } catch (error) {}
+      arr1 = title.split("[");
+      arr2 = arr1[1].split("]");
+      arr3 = arr2[1].split("-");
+      time = arr1[0];
+      msg1 = arr2[0];
+      msg2 = arr3[0];
+      msg3 = arr3[1];
+    } catch (error) {
+      try {
+        msg1 = arr1[0];
+      } catch (error) {}
+    }
     return (
       <Dialog maxWidth={"md"} open={open} onClose={handleClose}>
         <DialogTitle>Event</DialogTitle>
@@ -459,26 +468,10 @@ const CalendarAdmin = () => {
             <DialogContentText>{time}</DialogContentText>
             <DialogContentText>{msg1}</DialogContentText>
             <DialogContentText>{msg2}</DialogContentText>
+            <DialogContentText>{msg3}</DialogContentText>
           </DialogContent>
-          {/* {msg1 ? (
-            <DialogContent>
-              <DialogContentText>{msg1}</DialogContentText>
-            </DialogContent>
-          ) : (
-            ""
-          )}
-          {msg2 ? (
-            <DialogContent>
-              <DialogContentText>{msg2}</DialogContentText>
-            </DialogContent>
-          ) : (
-            ""
-          )} */}
         </Box>
         <DialogActions>
-          {/* <Button onClick={handleDelete} color="secondary">
-            Delete
-          </Button> */}
           <Button variant="outlined" onClick={handleClose}>
             Close
           </Button>
