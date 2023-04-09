@@ -208,7 +208,7 @@ const Landing = () => {
           <p className="text-xl m-auto text-center">
             <a
               target="_blank"
-              href="pbcmap.pdf"
+              href="http://www.palisadesbeachclub.com/images/pcbmap.pdf"
               className="main formatted-link"
             >
               View Map
