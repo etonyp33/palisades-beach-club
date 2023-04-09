@@ -200,7 +200,18 @@ const Landing = () => {
               href="https://maps.google.com/maps?f=q&hl=en&q=267+Pacific+Coast+Hwy,+Santa+Monica,+CA,+90402&zoom=4"
               className="main formatted-link"
             >
-              Get Driving Directions (Google){" "}
+              Get Driving Directions (Google)
+            </a>
+          </p>
+        </Box>       
+        <Box display="flex" justifyContent="center" sx={{ p: 0, margin: `0px 0px 0px 0px` }}>
+          <p className="text-xl m-auto text-center">
+            <a
+              target="_blank"
+              href="pbcmap.pdf"
+              className="main formatted-link"
+            >
+              View Map
             </a>
           </p>
         </Box>
