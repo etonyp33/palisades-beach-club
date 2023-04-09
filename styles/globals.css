@@ -234,3 +234,9 @@ p {
     }
   }
 }
+
+
+.rbc-event-content {
+  font-size: 8px;
+  white-space: break-spaces!important;
+}

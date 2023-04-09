@@ -1,9 +1,15 @@
 import React, { useState, useCallback, useMemo, useEffect } from "react";
 import Nav from "./nav";
-import { Box, Container, Grid } from "@mui/material";
 import { getData, getBoard } from "./data";
 import Image from "next/image";
 import { Pages_data } from "../context/context";
+
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
+import { Box, Button, Container, Grid, Typography } from "@mui/material";
 const pgName = "calendar";
 
 
