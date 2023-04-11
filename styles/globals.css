@@ -210,6 +210,11 @@ p {
       min-width: 1000px;
       max-width: 1000px;
     }
+    
+    .main-box-admin {
+      min-width: inherit;
+      max-width: inherit;
+    }
   }
 
 
@@ -250,6 +255,11 @@ p {
       max-width: 800px;
     }
     
+    .main-box-admin {
+      min-width: inherit;
+      max-width: inherit;
+    }
+    
     .rbc-calendar {
       width: 720px!important;
     }
@@ -285,6 +295,10 @@ p {
     .main-box {
       min-width: 600px;
       max-width: 600px;
+    }
+    .main-box-admin {
+      min-width: inherit;
+      max-width: inherit;
     }
   }
 }
