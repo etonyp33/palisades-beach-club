@@ -82,6 +82,7 @@ const Landing = () => {
       ltype = "administrator";
 
     // ltype = "administrator";
+    // ltype = "member";
     switch (ltype) {
       case "member":
         sessionStorage.setItem("lt", "member");

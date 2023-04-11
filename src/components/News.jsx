@@ -27,7 +27,7 @@ const News = () => {
       <Nav  />
       <div id={`container-${pgName}`} className="basic-pg flex items-center justify-center h-screen bg-fixed bg-center bg-cover custom-img">
         <div className="absolute top-0 left-0 right-0 bottom-0  bg-black/40 z-[2] bgUnderlay" />
-        <div className="sm:flex z-[2] main-box p-5 m-auto">
+        <div className=" z-[2] main-box p-5 m-auto pg-wrapper">
           <div className="flex flex-col text-center p-5 basic-page">
             <div className="hd-text-bold formatted-link page-header">News</div>
             <hr></hr>

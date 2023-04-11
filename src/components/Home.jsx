@@ -33,20 +33,28 @@ const Home = () => {
 
   return (
     <>
-      <Nav  />
-      <div id={`container-${pgName}`} className="basic-pg flex h-screen bg-fixed bg-center bg-cover custom-img">
+      <Nav />
+      <div
+        id={`container-${pgName}`}
+        className="basic-pg flex h-screen bg-fixed bg-center bg-cover custom-img"
+      >
         <div className="absolute top-0 left-0 right-0 bottom-0  bg-black/40 z-[2] bgUnderlay" />
         <div className="sm:flex z-[2] main-box p-5 m-auto w-100 home-left">
           <div className="flex flex-col text-center p-5 w-50">
+            {/* <div className="text-container text-container-home" dangerouslySetInnerHTML={{ __html: data }} /> */}
+            <div className="formatted-link py-5">
+              <a
+                target="_blank"
+                href={`https://docs.google.com/forms/d/e/1FAIpQLSfM4IdYuYQGG3IObW0uHE6GpZptz5PhIqp1DEK0K0tSq-BoVA/viewform`}
+              >
+                Make a Reservation
+              </a>
+            </div>
             Send a Message to the Board
             {/* <div className="text-container text-container-home" dangerouslySetInnerHTML={{ __html: data }} /> */}
-            <div className="hd-text-bold formatted-link">
+            <div style={{ paddingBottom: "15px" }} className="formatted-link">
               <a href={`mailto:{${bEmail}}`}>{bName}</a>
             </div>
-            {/* <div className="text-container text-container-home" dangerouslySetInnerHTML={{ __html: data }} /> */}
-            <h4 className="formatted-link py-5">
-              <Link href={"/reservations"}>Make a Reservation</Link>
-            </h4>
             <hr className="pb-5"></hr>
             <div
               className="text-container text-container-home p-0"

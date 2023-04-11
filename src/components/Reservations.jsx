@@ -32,6 +32,14 @@ const Reservations = () => {
           <div className="flex flex-col text-center p-5 basic-page">
             <div className="hd-text-bold formatted-link page-header">Reservations</div>
             <hr></hr>
+            <div className="formatted-link py-0">
+              <a
+                target="_blank"
+                href={`https://docs.google.com/forms/d/e/1FAIpQLSfM4IdYuYQGG3IObW0uHE6GpZptz5PhIqp1DEK0K0tSq-BoVA/viewform`}
+              >
+                Make a Reservation
+              </a>
+            </div>
             <div
               className="text-container basic-container text-container-home"
               dangerouslySetInnerHTML={{ __html: data }}

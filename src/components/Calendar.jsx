@@ -186,11 +186,15 @@ const CalendarAdmin = () => {
   );
 
   ///////////////////////////////////////////////////////////////////////////
-
+//************************************************************************************************ */
+//************************************************************************************************ */
+//************************************************************************************************ */
   ////////////////////////////////////////////////////////////
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////********************************************************************** */
   ///////////////////////////////////////////////////////////////////////////
   function EditDialog(props) {
+
+    const defaultTime = "6:00PM to 11:30PM"
     const [opcl, setOpcl] = React.useState("closed");
     const [memName, setMemName] = React.useState("[MEMBER]");
     const [numGuests, setNumGuests] = React.useState("#");
@@ -199,6 +203,7 @@ const CalendarAdmin = () => {
     const [messageClass, setMessageClass] = React.useState("hidden");
     const [mStringClass, setMstringClass] = React.useState("hidden");
     const [timeString, setTimeString] = React.useState("");
+    const [hourString, setHourString] = React.useState(defaultTime);
     const [mainStr, setMainStr] = React.useState(false);
     const [openCloseString, setOpenCloseString] = React.useState("");
 
@@ -206,6 +211,7 @@ const CalendarAdmin = () => {
     const updateMstring = () => {
       let mStr = "";
       if (messageClass === "hidden") {
+
         mStr = `${openCloseString} [${timeString}] ${memName} - ${numGuests} Guests `;
       } else if (memberClass === "hidden") {
         mStr = `${msg}`;
@@ -225,7 +231,7 @@ const CalendarAdmin = () => {
         let minsEnd = dtEnd.getMinutes();
         evnt = JSON.stringify(start);
         if (hrs === 0) {
-          tString = "ALL DAY";
+          tString = defaultTime;
         } else {
           let ampm = "AM",
             ampmEnd = "AM";
@@ -315,6 +321,11 @@ const CalendarAdmin = () => {
       setNumGuests(e.target.value);
     };
 
+    const keyPressHour = (e) => {
+      setMstringClass("");
+      setHourString(e.target.value);
+    };
+
     const keyPressMessg = (e) => {
       setMstringClass("");
       setMsg(e.target.value);
@@ -374,6 +385,23 @@ const CalendarAdmin = () => {
                 label="# of Guests"
                 variant="outlined"
                 onKeyUp={keyPressNumGuests}
+              />
+            </Box>
+            <Box
+              component="form"
+              sx={{
+                "& > :not(style)": { m: 1, width: "100px" },
+              }}
+              noValidate
+              autoComplete="off"
+              className={memberClass}
+              defaultValue={defaultTime}
+            >
+              <TextField
+                id="guests"
+                label="Time"
+                variant="outlined"
+                onKeyUp={keyPressHour}
               />
             </Box>
             <Box

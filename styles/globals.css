@@ -53,7 +53,7 @@ html {
 }
 .formatted-link {
   color: #587429;
-  cursor:pointer;
+  cursor: pointer;
 }
 .formatted-link:hover {
   text-decoration: underline;
@@ -113,7 +113,7 @@ p {
 }
 
 .menu-divider {
-  margin-top:2px;
+  margin-top: 2px;
   padding: 0 2px 0 2px;
   color: #587429;
 }
@@ -122,18 +122,11 @@ p {
   margin-top: 7px;
 }
 
-
+/* ///////////////////////////// */
 
 /* ///////////////////////////// */
 
-
-
 /* ///////////////////////////// */
-
-
-
-/* ///////////////////////////// */
-
 
 /* ///////////////////////////// */
 /* if device has touch screen */
@@ -176,10 +169,16 @@ p {
 .rbc-calendar {
   width: auto !important;
 }
-
+.rbc-event-content {
+  font-size: 8px;
+  white-space: break-spaces !important;
+}
 /* if device has no touch screen */
 @media (any-pointer: fine) {
-  @media (min-width: 800px) {
+  
+
+
+  @media (min-width: 1200px) {
     #container-gallery iframe {
       width: 850px;
       height: 750px;
@@ -203,7 +202,61 @@ p {
     #container-calendar .page-header {
       margin: 0;
     }
+    .rbc-calendar {
+      width: 920px!important;
+    }
+
+    .main-box {
+      min-width: 1000px;
+      max-width: 1000px;
+    }
   }
+
+
+
+
+  @media (min-width: 800px) and (max-width: 1200px) {
+    #container-gallery iframe {
+      width: 850px;
+      height: 750px;
+      overflow-y: auto;
+    }
+    #container-roster iframe {
+      width: 1000px;
+      height: 750px;
+      overflow-y: auto;
+    }
+
+    #container-home .main-box,
+    #container-calendar .main-box {
+      height: auto;
+    }
+    #container-home,
+    #container-calendar {
+      padding-top: 100px;
+      padding-bottom: 50px;
+    }
+    #container-calendar .page-header {
+      margin: 0;
+    }
+
+    .rbc-event-content {
+      font-size: 8px;
+      white-space: break-spaces !important;
+    }
+
+    .main-box {
+      min-width: 800px;
+      max-width: 800px;
+    }
+    
+    .rbc-calendar {
+      width: 720px!important;
+    }
+  }
+
+
+
   @media (min-width: 600px) and (max-width: 800px) {
     #container-gallery iframe {
       width: 650px;
@@ -229,14 +282,9 @@ p {
     #container-calendar .page-header {
       margin: 0;
     }
-    .rbc-calendar {
-      width: auto !important;
+    .main-box {
+      min-width: 600px;
+      max-width: 600px;
     }
   }
-}
-
-
-.rbc-event-content {
-  font-size: 8px;
-  white-space: break-spaces!important;
 }
