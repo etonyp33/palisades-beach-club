@@ -184,26 +184,32 @@ const CalendarAdmin = () => {
     }),
     []
   );
-
+  function dayOfWeek(day) {
+    const arr = ["Sun", "Mon", "Tue", "Wed", "Thur", "Fri", "Sat"];
+    return arr[day];
+  }
   ///////////////////////////////////////////////////////////////////////////
-//************************************************************************************************ */
-//************************************************************************************************ */
-//************************************************************************************************ */
+  //************************************************************************************************ */
+  //************************************************************************************************ */
+  //************************************************************************************************ */
   ////////////////////////////////////////////////////////////
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////********************************************************************** */
   ///////////////////////////////////////////////////////////////////////////
   function EditDialog(props) {
-
-    const defaultTime = "6:00PM to 11:30PM"
+    const defaultTime = "6:00PM to 11:30PM";
     const [opcl, setOpcl] = React.useState("closed");
     const [memName, setMemName] = React.useState("[MEMBER]");
     const [numGuests, setNumGuests] = React.useState("#");
     const [msg, setMsg] = React.useState("");
+    const [hourDefault, setHourDefault] = React.useState(defaultTime);
     const [memberClass, setMemberClass] = React.useState("");
     const [messageClass, setMessageClass] = React.useState("hidden");
     const [mStringClass, setMstringClass] = React.useState("hidden");
+    const [rangeStringClass, setRangeStringClass] = React.useState("hidden");
+    const [radioClass, setRadioClass] = React.useState("");
     const [timeString, setTimeString] = React.useState("");
     const [hourString, setHourString] = React.useState(defaultTime);
+    const [rangeString, setRangerString] = React.useState("");
     const [mainStr, setMainStr] = React.useState(false);
     const [openCloseString, setOpenCloseString] = React.useState("");
 
@@ -211,7 +217,6 @@ const CalendarAdmin = () => {
     const updateMstring = () => {
       let mStr = "";
       if (messageClass === "hidden") {
-
         mStr = `${openCloseString} [${timeString}] ${memName} - ${numGuests} Guests `;
       } else if (memberClass === "hidden") {
         mStr = `${msg}`;
@@ -219,20 +224,35 @@ const CalendarAdmin = () => {
       setMainStr(mStr);
       return mStr;
     };
+    //**********************************                                   ********************************** */
+    //***********************                                            ************************* */
+    //********************                                                                 *************************** */
     useEffect(() => {
       try {
-        // console.log(start);
         let toString = "";
         let dt = new Date(start);
         let dtEnd = new Date(end);
+        let dayStInt = dt.getDay();
+        let dayEdInt = dtEnd.getDay();
+        let daySt = dayOfWeek(dayStInt);
+        let dayEd = dayOfWeek(dayEdInt - 1);
         let hrs = dt.getHours();
         let mins = dt.getMinutes();
         let hrsEnd = dtEnd.getHours();
         let minsEnd = dtEnd.getMinutes();
         evnt = JSON.stringify(start);
-        if (hrs === 0) {
+        let diff = dayEdInt - dayStInt;
+        if (diff !== 1 && dayStInt !== 6 && diff !== -6) {
+          setRangeStringClass("");
+          setMemberClass("hidden");
+          setMessageClass("");
+          setRadioClass("hidden");
+          let rStr = `${daySt} thru ${dayEd}`;
+          setRangerString(rStr);
+        } else if (hrs === 0) {
           tString = defaultTime;
         } else {
+
           let ampm = "AM",
             ampmEnd = "AM";
 
@@ -257,6 +277,8 @@ const CalendarAdmin = () => {
             toString = " to " + hEndString + ":" + mEndString;
           }
 
+          console.log(hourString, hourDefault, hourString === hourDefault)
+        // console.log(start, error);
           tString = hString + ":" + mString + toString + ampm;
           setTimeString(tString);
         }
@@ -284,6 +306,12 @@ const CalendarAdmin = () => {
     useEffect(() => {
       updateMstring();
     }, [msg]);
+    useEffect(() => {
+      updateMstring();
+    }, [hourString]);//
+
+
+    
     let evnt = "",
       tString = "",
       hString = "",
@@ -291,12 +319,20 @@ const CalendarAdmin = () => {
       hEndString = "",
       mEndString = "",
       toString;
-
+    function closeEvent() {
+      setRangeStringClass("hidden");
+      setMemberClass("");
+      setMessageClass("hidden");
+      setRadioClass("");
+      setRangerString("");
+    }
     const handleSave = () => {
+      closeEvent();
       onClose(mainStr);
     };
 
     const handleClose = () => {
+      closeEvent();
       onClose("cancel");
     };
     const handleOpenCloseChange = (e) => {
@@ -323,7 +359,9 @@ const CalendarAdmin = () => {
 
     const keyPressHour = (e) => {
       setMstringClass("");
+      setTimeString(e.target.value);
       setHourString(e.target.value);
+      updateMstring()
     };
 
     const keyPressMessg = (e) => {
@@ -340,7 +378,7 @@ const CalendarAdmin = () => {
               component="form"
               flexDirection={"column"}
               sx={{
-                "& > :not(style)": { m: 1,  textAlign: "center" },
+                "& > :not(style)": { m: 1, textAlign: "center" },
               }}
               noValidate
               autoComplete="off"
@@ -352,6 +390,7 @@ const CalendarAdmin = () => {
                   defaultValue="closed"
                   name="radio-buttons-group"
                   onChange={handleOpenCloseChange}
+                  className={radioClass}
                   // value={selected}
                 >
                   <FormControlLabel value="closed" control={<Radio />} label="Closed" />
@@ -390,7 +429,7 @@ const CalendarAdmin = () => {
             <Box
               component="form"
               sx={{
-                "& > :not(style)": { m: 1, width: "100px" },
+                "& > :not(style)": { m: 1, width: "170px", textAlign: "center" },
               }}
               noValidate
               autoComplete="off"
@@ -400,9 +439,21 @@ const CalendarAdmin = () => {
               <TextField
                 id="guests"
                 label="Time"
+                defaultValue={hourDefault}
                 variant="outlined"
                 onKeyUp={keyPressHour}
               />
+            </Box>
+            <Box
+              component="form"
+              sx={{
+                "& > :not(style)": { m: 1, width: "300px" },
+              }}
+              noValidate
+              autoComplete="off"
+              className={rangeStringClass}
+            >
+              {rangeString}
             </Box>
             <Box
               component="form"
