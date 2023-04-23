@@ -235,6 +235,17 @@ const Admin = () => {
                   <div
                     className="admin-link  formatted-link pl-1  pr-1"
                     onClick={handleClick}
+                    name="Info"
+                    id="Info"
+                  >
+                    <Typography variant="h6" gutterBottom>
+                      Info
+                    </Typography>
+                  </div>
+                  <span className="menu-divider">|</span>
+                  <div
+                    className="admin-link  formatted-link pl-1  pr-1"
+                    onClick={handleClick}
                     name="Reservations"
                     id="Reservations"
                   >

@@ -120,8 +120,19 @@ p {
 
 .top-nav-link {
   margin-top: 7px;
+  font-size:12px;
+  line-height: 2.9em;
+}
+.MuiButton-contained {
+  background-color: #587429;
 }
 
+
+.css-sghohy-MuiButtonBase-root-MuiButton-root:hover {
+  background-color: rgb(171, 185, 146);
+
+}
+  
 /* ///////////////////////////// */
 
 /* ///////////////////////////// */
@@ -214,6 +225,9 @@ p {
     .main-box-admin {
       min-width: inherit;
       max-width: inherit;
+    }
+    .top-nav-link {
+      font-size:16px;
     }
   }
 

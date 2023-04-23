@@ -1,13 +1,12 @@
 import React, { useState, useEffect, useContext } from "react";
 import Nav from "./nav";
-import { Box, Container, Grid } from "@mui/material";
+import { Button } from "@mui/material";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { getData, getBoard } from "./data";
 import Image from "next/image";
 import { Pages_data } from "../context/context";
 const pgName = "reservations";
-
 
 const Reservations = () => {
   const [data, setData] = useState("");
@@ -25,20 +24,26 @@ const Reservations = () => {
 
   return (
     <>
-      <Nav  />
-      <div id={`container-${pgName}`} className="basic-pg flex items-center justify-center h-screen bg-fixed bg-center bg-cover custom-img">
+      <Nav />
+      <div
+        id={`container-${pgName}`}
+        className="basic-pg flex items-center justify-center h-screen bg-fixed bg-center bg-cover custom-img"
+      >
         <div className="absolute top-0 left-0 right-0 bottom-0  bg-black/40 z-[2] bgUnderlay" />
         <div className="sm:flex z-[2] main-box p-5 m-auto">
           <div className="flex flex-col text-center p-5 basic-page">
             <div className="hd-text-bold formatted-link page-header">Reservations</div>
             <hr></hr>
+
             <div className="formatted-link py-0">
-              <a
-                target="_blank"
-                href={`https://docs.google.com/forms/d/e/1FAIpQLSfM4IdYuYQGG3IObW0uHE6GpZptz5PhIqp1DEK0K0tSq-BoVA/viewform`}
-              >
-                Make a Reservation
-              </a>
+              <Button variant="contained">
+                <a
+                  target="_blank"
+                  href={`https://docs.google.com/forms/d/e/1FAIpQLSfM4IdYuYQGG3IObW0uHE6GpZptz5PhIqp1DEK0K0tSq-BoVA/viewform`}
+                >
+                  Make a Reservation
+                </a>
+              </Button>
             </div>
             <div
               className="text-container basic-container text-container-home"
