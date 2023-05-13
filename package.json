@@ -18,6 +18,8 @@
     "@parse/react-native": "^0.0.1-alpha.18",
     "aws-lambda": "^1.0.7",
     "aws-sdk": "^2.1323.0",
+    "axios": "^1.4.0",
+    "fslightbox-react": "^1.7.4",
     "install": "^0.13.0",
     "jquery": "^3.6.3",
     "md5": "^2.3.0",
@@ -29,9 +31,10 @@
     "react-dom": "18.2.0",
     "react-grid-gallery": "^1.0.0",
     "react-native-big-calendar": "^3.4.1",
+    "react-photo-album": "^2.2.2",
     "react-quill": "^2.0.0",
-    "react-responsive-carousel": "^3.2.23",
-    "uuid": "^9.0.0"
+    "uuid": "^9.0.0",
+    "yet-another-react-lightbox": "^3.7.0"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.14",
