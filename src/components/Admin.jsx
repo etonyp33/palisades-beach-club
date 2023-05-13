@@ -120,7 +120,7 @@ const Admin = () => {
         } catch (error) {}
         try {
           page.set("objectId", process.env.NEXT_PUBLIC_HOME_EMAIL_ID);
-          page.set("content", encodeBase64(b.Email));
+          page.set("content", encodeBase64(bEmail));
           result = await page.save();
         } catch (error) {}
       }
@@ -290,7 +290,7 @@ const Admin = () => {
                     <TextField
                       size="small"
                       onChange={(event) => {
-                        setBName(event.target.value);
+                        setBEmail(event.target.value);
                       }}
                       // onChange={onChangeBemail}
                       value={bEmail}
