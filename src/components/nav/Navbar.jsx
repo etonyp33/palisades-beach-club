@@ -24,6 +24,9 @@ const Navbar = () => {
             <Link href={"/home"}>Home</Link>
           </li>
           <li className="p-4 top-nav-link">
+            <Link href={"/calendar"}>Calendar</Link>
+          </li>
+          <li className="p-4 top-nav-link">
             <Link href={"/reservations"}>Reservations</Link>
           </li>
           <li className="p-4 top-nav-link">
@@ -34,9 +37,6 @@ const Navbar = () => {
           </li>
           <li className="p-4 top-nav-link">
             <Link href={"/rules"}>Rules</Link>
-          </li>
-          <li className="p-4 top-nav-link">
-            <Link href={"/calendar"}>Calendar</Link>
           </li>
           <li className="p-4 top-nav-link">
             <Link href={"/gallery"}>Gallery</Link>
@@ -68,6 +68,9 @@ const Navbar = () => {
             <li onClick={handleNav} className="p-4 text-4xl hover:text-gray-500">
               <Link href={"/home"}>Home</Link>
             </li>
+            <li className="p-4 text-4xl hover:text-gray-500">
+              <Link href={"/calendar"}>Calendar</Link>
+            </li>
             <li onClick={handleNav} className="p-4 text-4xl hover:text-gray-500">
               <Link href={"/reservations"}>Reservations</Link>
             </li>
@@ -79,9 +82,6 @@ const Navbar = () => {
             </li>
             <li onClick={handleNav} className="p-4 text-4xl hover:text-gray-500">
               <Link href={"/rules"}>Rules</Link>
-            </li>
-            <li className="p-4 text-4xl hover:text-gray-500">
-              <Link href={"/calendar"}>Calendar</Link>
             </li>
             <li onClick={handleNav} className="p-4 text-4xl hover:text-gray-500">
               <Link href={"/gallery"}>Gallery</Link>
