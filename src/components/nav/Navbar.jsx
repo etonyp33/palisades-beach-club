@@ -44,7 +44,7 @@ const Navbar = () => {
           <li className="p-4 top-nav-link">
             <Link href={"/roster"}>Roster</Link>
           </li>
-          <li className="p-4 top-nav-link">
+          <li className="p-4 top-nav-link" title="Log Out">
             <Link href={"/logout"}>
               <IconButton sx={{ ml: 5 }} aria-label="save">
                 <ExitToAppTwoToneIcon sx={{ color: "white" }} />
