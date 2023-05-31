@@ -87,7 +87,7 @@ const Navbar = () => {
               <Link href={"/gallery"}>Gallery</Link>
             </li>
             <li onClick={handleNav} className="p-4 text-4xl hover:text-gray-500">
-              <Link href={"/roster"}>Roster</Link>
+              <Link href={"/files/roster.pdf"}>Roster</Link>
             </li>
             <li onClick={handleNav} title="Log Out" className="p-4 text-4xl hover:text-gray-500">
               <Link href={"/logout"}>

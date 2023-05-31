@@ -182,6 +182,7 @@ p {
   font-size: 8px;
   white-space: break-spaces !important;
 }
+
 /* if device has no touch screen */
 @media (any-pointer: fine) {
   @media (min-width: 1200px) {
