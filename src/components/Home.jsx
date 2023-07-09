@@ -42,6 +42,9 @@ const Home = () => {
         <div className="sm:flex z-[2] main-box p-5 m-auto w-100 home-left">
           <div className="flex flex-col text-center p-5 w-50">
             {/* <div className="text-container text-container-home" dangerouslySetInnerHTML={{ __html: data }} /> */}
+            <div className="formatted-link py-0">
+              <Link href={"/calendar"}>View Calendar</Link>
+            </div>
             <div className="formatted-link py-5">
               <a
                 target="_blank"
