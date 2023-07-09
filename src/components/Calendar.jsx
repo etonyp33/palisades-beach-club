@@ -216,7 +216,9 @@ const CalendarAdmin = () => {
     const { onClose, selectedValue, open } = props;
     const updateMstring = () => {
       let mStr = "";
-      if (messageClass === "hidden") {
+      if (openCloseString === "OPEN") {
+        mStr = `Open For Members`;
+      } else if (messageClass === "hidden") {
         mStr = `${openCloseString} [${timeString}] ${memName} - ${numGuests} Guests `;
       } else if (memberClass === "hidden") {
         mStr = `${msg}`;
@@ -252,7 +254,6 @@ const CalendarAdmin = () => {
         } else if (hrs === 0) {
           tString = defaultTime;
         } else {
-
           let ampm = "AM",
             ampmEnd = "AM";
 
@@ -277,8 +278,8 @@ const CalendarAdmin = () => {
             toString = " to " + hEndString + ":" + mEndString;
           }
 
-          console.log(hourString, hourDefault, hourString === hourDefault)
-        // console.log(start, error);
+          console.log(hourString, hourDefault, hourString === hourDefault);
+          // console.log(start, error);
           tString = hString + ":" + mString + toString + ampm;
           setTimeString(tString);
         }
@@ -292,6 +293,11 @@ const CalendarAdmin = () => {
         setOpenCloseString("");
       } else {
         setOpenCloseString(opcl.toUpperCase());
+        if (opcl === "open") {
+          setMemberClass("hidden");
+        } else {
+          setMemberClass("");
+        }
       }
     }, [opcl]);
     useEffect(() => {
@@ -308,10 +314,8 @@ const CalendarAdmin = () => {
     }, [msg]);
     useEffect(() => {
       updateMstring();
-    }, [hourString]);//
+    }, [hourString]); //
 
-
-    
     let evnt = "",
       tString = "",
       hString = "",
@@ -361,7 +365,7 @@ const CalendarAdmin = () => {
       setMstringClass("");
       setTimeString(e.target.value);
       setHourString(e.target.value);
-      updateMstring()
+      updateMstring();
     };
 
     const keyPressMessg = (e) => {
@@ -394,7 +398,7 @@ const CalendarAdmin = () => {
                   // value={selected}
                 >
                   <FormControlLabel value="closed" control={<Radio />} label="Closed" />
-                  {/* <FormControlLabel value="open" control={<Radio />} label="Open" /> */}
+                  <FormControlLabel value="open" control={<Radio />} label="Open" />
                   <FormControlLabel value="message" control={<Radio />} label="Message" />
                 </RadioGroup>
               </FormControl>
