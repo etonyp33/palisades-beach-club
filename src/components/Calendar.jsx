@@ -217,7 +217,7 @@ const CalendarAdmin = () => {
     const updateMstring = () => {
       let mStr = "";
       if (openCloseString === "OPEN") {
-        mStr = `Open For Members`;
+        mStr = `Open For Members [${timeString}] ${memName} - ${numGuests} Guests `;
       } else if (messageClass === "hidden") {
         mStr = `${openCloseString} [${timeString}] ${memName} - ${numGuests} Guests `;
       } else if (memberClass === "hidden") {
@@ -293,11 +293,12 @@ const CalendarAdmin = () => {
         setOpenCloseString("");
       } else {
         setOpenCloseString(opcl.toUpperCase());
-        if (opcl === "open") {
-          setMemberClass("hidden");
-        } else {
-          setMemberClass("");
-        }
+        setMemberClass("");
+        // if (opcl === "open") {
+        //   setMemberClass("hidden");
+        // } else {
+        //   setMemberClass("");
+        // }
       }
     }, [opcl]);
     useEffect(() => {
