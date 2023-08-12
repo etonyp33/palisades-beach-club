@@ -217,7 +217,7 @@ const CalendarAdmin = () => {
     const updateMstring = () => {
       let mStr = "";
       if (openCloseString === "OPEN") {
-        mStr = `Open For Members [${timeString}] ${memName} - ${numGuests} Guests `;
+        mStr = `Open [${timeString}] ${memName} - ${numGuests} Guests `;
       } else if (messageClass === "hidden") {
         mStr = `${openCloseString} [${timeString}] ${memName} - ${numGuests} Guests `;
       } else if (memberClass === "hidden") {
