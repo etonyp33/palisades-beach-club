@@ -33,7 +33,7 @@ const Roster = () => {
             <hr></hr>
             <iframe
               id="rosterIframe"
-              src="files/roster.pdf"
+              src="files/roster.docx"
               width={"1200px"}
               height={"800px"}
             ></iframe>
