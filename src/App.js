@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import $ from "jquery";
-// import { ConnectedRouter } from "connected-react-router";
+
 import routes from "./routes";
 
 const App = ({ history }) => {
