@@ -75,30 +75,64 @@ const Admin = () => {
       router.push("/");
     }
   }, []);
+
   function pageId(name) {
     let id;
+
     switch (name) {
       case "home":
         id = process.env.NEXT_PUBLIC_HOME_ID;
         break;
+
       case "news":
         id = process.env.NEXT_PUBLIC_NEWS_ID;
         break;
+
+      case "info":
+        id = process.env.NEXT_PUBLIC_INFO_ID;
+        break;
+
       case "rules":
         id = process.env.NEXT_PUBLIC_RULES_ID;
         break;
+
       case "reservations":
         id = process.env.NEXT_PUBLIC_RESERVATIONS_ID;
         break;
     }
+
     return id;
   }
+
+  // function pageId(name) {
+  //   let id;
+  //   switch (name) {
+  //     case "home":
+  //       id = process.env.NEXT_PUBLIC_HOME_ID;
+  //       break;
+  //     case "news":
+  //       id = process.env.NEXT_PUBLIC_NEWS_ID;
+  //       break;
+  //     case "rules":
+  //       id = process.env.NEXT_PUBLIC_RULES_ID;
+  //       break;
+  //     case "reservations":
+  //       id = process.env.NEXT_PUBLIC_RESERVATIONS_ID;
+  //       break;
+  //   }
+  //   return id;
+  // }
   function runSave() {
     const save = async () => {
       let result;
       const page = new Parse.Object("Page");
       // const pgId = getPageId(pages, saveType);
       const pgId = pageId(saveType);
+
+      if (!pgId) {
+        alert(`No Page ID configured for "${saveType}".`);
+        return;
+      }
       //set the object //1TYHBbJiDg
       page.set("objectId", pgId);
       //define the new values

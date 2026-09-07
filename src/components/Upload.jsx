@@ -13,7 +13,12 @@ const Upload = () => {
   const [uploadStatuses, setUploadStatuses] = useState({});
   const [uploadMessage, setUploadMessage] = useState("");
 
+  const [rosterFile, setRosterFile] = useState(null);
+  const [rosterUploading, setRosterUploading] = useState(false);
+  const [rosterMessage, setRosterMessage] = useState("");
+
   const fileInputRef = useRef(null);
+  const rosterInputRef = useRef(null);
 
   useEffect(() => {
     const loadGalleries = async () => {
@@ -135,6 +140,7 @@ const Upload = () => {
 
       try {
         const { width, height } = await getImageDimensions(file);
+
         const params = new URLSearchParams({
           gallerySlug: selectedGallery,
           filename: file.name,
@@ -214,14 +220,87 @@ const Upload = () => {
     });
   };
 
+  const handleRosterSelect = (event) => {
+    const file = event.target.files?.[0];
+
+    if (!file) {
+      return;
+    }
+
+    if (file.type !== "application/pdf" && !file.name.toLowerCase().endsWith(".pdf")) {
+      setRosterFile(null);
+      setRosterMessage("Please select a PDF file.");
+      event.target.value = "";
+      return;
+    }
+
+    setRosterFile(file);
+    setRosterMessage("");
+
+    // Allows selecting the same file again later.
+    event.target.value = "";
+  };
+
+  const clearRosterFile = () => {
+    setRosterFile(null);
+    setRosterMessage("");
+
+    if (rosterInputRef.current) {
+      rosterInputRef.current.value = "";
+    }
+  };
+
+  const uploadRoster = async () => {
+    if (!rosterFile) {
+      setRosterMessage("Please select a PDF file first.");
+      return;
+    }
+
+    setRosterUploading(true);
+    setRosterMessage("");
+
+    try {
+      const response = await fetch("/api/roster-upload", {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/pdf",
+        },
+        body: rosterFile,
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || data.error || "Roster upload failed");
+      }
+
+      setRosterMessage("Roster PDF uploaded successfully.");
+      setRosterFile(null);
+
+      if (rosterInputRef.current) {
+        rosterInputRef.current.value = "";
+      }
+
+      console.log("Roster uploaded:", data.blob);
+    } catch (error) {
+      console.error("Roster upload error:", error);
+      setRosterMessage(`Upload failed: ${error.message}`);
+    } finally {
+      setRosterUploading(false);
+    }
+  };
+
   return (
     <>
       <Nav />
 
-      <div className="basic-pg p-60 pg-reservations  flex items-center justify-center min-h-screen bg-fixed bg-center bg-cover custom-img py-10">
+      <div className="basic-pg p-60 pg-reservations flex items-center justify-center min-h-screen bg-fixed bg-center bg-cover custom-img py-10">
         <div className="absolute top-0 left-0 right-0 bottom-0 bg-black/40 z-[2] bgUnderlay" />
 
         <div className="z-[2] main-box main-box-admin p-5 m-auto bg-white rounded-lg w-full max-w-2xl">
+          {/* ==================== GALLERY ==================== */}
+
           <h1 className="text-2xl mb-6">Gallery Upload</h1>
 
           {loadingGalleries ? (
@@ -356,6 +435,65 @@ const Upload = () => {
               </div>
             </>
           )}
+
+          {/* ==================== ROSTER ==================== */}
+
+          <hr className="my-10" />
+
+          <h2 className="text-2xl mb-2">Roster PDF</h2>
+
+          <p className="text-sm text-gray-600 mb-5">
+            Upload the current club roster PDF. Uploading a new roster replaces the current roster.
+          </p>
+
+          <div className="mb-5">
+            <input
+              ref={rosterInputRef}
+              type="file"
+              accept="application/pdf,.pdf"
+              onChange={handleRosterSelect}
+              className="hidden"
+            />
+
+            <button
+              type="button"
+              onClick={() => rosterInputRef.current?.click()}
+              className="px-5 py-2 rounded bg-black text-white"
+            >
+              Choose Roster PDF
+            </button>
+
+            <div className="text-sm text-gray-600 mt-2">PDF files only</div>
+          </div>
+
+          {rosterFile && (
+            <div className="border rounded p-4 mb-5">
+              <div className="font-medium truncate">{rosterFile.name}</div>
+
+              <div className="text-xs text-gray-500 mt-1">
+                {(rosterFile.size / 1024 / 1024).toFixed(2)} MB
+              </div>
+            </div>
+          )}
+
+          {rosterMessage && <div className="mb-5 text-sm">{rosterMessage}</div>}
+
+          <div className="flex gap-3">
+            <button
+              type="button"
+              onClick={uploadRoster}
+              disabled={rosterUploading || !rosterFile}
+              className="px-5 py-2 rounded bg-black text-white disabled:opacity-50"
+            >
+              {rosterUploading ? "Uploading..." : "Upload Roster"}
+            </button>
+
+            {rosterFile && !rosterUploading && (
+              <button type="button" onClick={clearRosterFile} className="px-5 py-2 rounded border">
+                Clear
+              </button>
+            )}
+          </div>
         </div>
       </div>
     </>
