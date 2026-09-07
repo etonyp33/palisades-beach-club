@@ -7,7 +7,23 @@ import IconButton from "@mui/material/IconButton";
 import ExitToAppTwoToneIcon from "@mui/icons-material/ExitToAppTwoTone";
 const Navbar = () => {
   const [nav, setNav] = React.useState(false);
+  const handleLogout = async () => {
+    try {
+      await fetch("/api/logout", {
+        method: "POST",
+        credentials: "include",
+      });
+    } catch (error) {
+      console.error(error);
+    }
 
+    sessionStorage.removeItem("lt");
+    sessionStorage.removeItem("init");
+    sessionStorage.removeItem("navType");
+    sessionStorage.removeItem("pgsData");
+
+    window.location.href = "/";
+  };
   const handleNav = () => {
     setNav(!nav);
   };
@@ -24,11 +40,18 @@ const Navbar = () => {
             <Link href={"/calendar_admin"}>Calendar</Link>
           </li>
           <li className="p-4 top-nav-link">
+            <Link href={"/upload"}>Upload</Link>
+          </li>
+          <li className="p-4 top-nav-link">
             <Link href={"/admin"}>Page Edit</Link>
           </li>
           <li className="p-4" title="Log Out">
             <Link href={"/"}>
-              <IconButton sx={{ ml: 5 }} aria-label="save">
+              <IconButton
+                onClick={handleLogout}
+                sx={{ ml: 5 }}
+                aria-label="log out"
+              >
                 <ExitToAppTwoToneIcon sx={{ color: "white" }} />
               </IconButton>
             </Link>

@@ -59,10 +59,10 @@ const CalendarAdmin = () => {
   const [myEvents, setEvents] = useState([]);
 
   useEffect(() => {
-    retrieve();
+    loadEvents();
   }, []);
 
-  function retrieve() {
+  function loadEvents() {
     const getEvents = async () => {
       try {
         let parseQuery = new Parse.Query("Event");

@@ -34,7 +34,7 @@ const CalendarBasic = () => {
   const [myEvents, setEvents] = useState([]);
 
   useEffect(() => {
-    retrieve();
+    loadEvents();
   }, []);
 
   const handleClose = () => {
@@ -114,7 +114,7 @@ const CalendarBasic = () => {
     }),
     []
   );
-  function retrieve() {
+  function loadEvents() {
     const getEvents = async () => {
       let parseQuery = new Parse.Query("Event");
       const res = await parseQuery.findAll();

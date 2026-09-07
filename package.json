@@ -16,6 +16,7 @@
     "@mui/material": "^5.10.7",
     "@next/font": "13.1.6",
     "@parse/react-native": "^0.0.1-alpha.18",
+    "@vercel/blob": "^2.8.0",
     "aws-lambda": "^1.0.7",
     "aws-sdk": "^2.1323.0",
     "axios": "^1.4.0",

@@ -33,32 +33,10 @@ const CalendarComponent = () => {
   const [myEvents, setEvents] = useState([]);
 
   useEffect(() => {
-    retrieve();
+    loadEvents();
   }, []);
 
  
-  function SimpleDialog(props) {
-    const { onClose, open } = props;
-
-    const handleClose = () => {
-      onClose();
-    };
-
-    return (
-      <Dialog maxWidth={"md"} open={open} onClose={handleClose}>
-        <DialogTitle>{title}</DialogTitle>
-        <DialogContent>
-          <DialogContentText>{title}</DialogContentText>
-        </DialogContent>
-        <DialogContent>
-          <DialogContentText>{start}</DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose}>Close</Button>
-        </DialogActions>
-      </Dialog>
-    );
-  }
 
   const eventClick = (event) => {
     console.log(event);
@@ -85,7 +63,7 @@ const CalendarComponent = () => {
     }),
     []
   );
-  function retrieve() {
+  function loadEvents() {
     const getEvents = async () => {
       let parseQuery = new Parse.Query("Event");
       const res = await parseQuery.findAll();

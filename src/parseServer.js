@@ -1,4 +1,4 @@
-import Parse from "parse/dist/parse.min.js";
+import Parse from "parse/node.js";
 
 Parse.initialize(
   "u5D9tHT4lhdycxqEiDDyt5nAXEuyQuPQ8IuKG0At",

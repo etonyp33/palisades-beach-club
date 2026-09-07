@@ -21,8 +21,8 @@ export const loginCheck = (pw, loginType) => {
         break;
       case "administrator":
         if (
-          str === process.env.NEXT_PUBLIC_ADMIN_LOGIN_1 ||
-          str === process.env.NEXT_PUBLIC_ADMIN_LOGIN_2
+          str === process.env.ADMIN_LOGIN_1 ||
+          str === process.env.ADMIN_LOGIN_2
         ) {
             return true
         }

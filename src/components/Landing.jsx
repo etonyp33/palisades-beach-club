@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 
 import Image from "next/image";
-import Parse from "../../src/parse";
+import { retrievePages } from "../../src/data";
 // import styles from "../styles/Home.module.css";
 import { Box, Button, Container, Grid, Typography, Paper } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
@@ -28,11 +28,7 @@ import { loginCheck } from "../../src/components/verify";
 const pgName = "landing";
 
 const Landing = () => {
-  useEffect(() => {
-    setPages(false);
-    // console.log(pages);
-  }, []);
-
+ 
   const [loginType, setLoginType] = React.useState("member");
 
   const handleChange = (event) => {
@@ -62,9 +58,43 @@ const Landing = () => {
     event.preventDefault();
   };
 
+  const loginAdministrator = async () => {
+    try {
+      const response = await fetch("/api/admin-login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({
+          password: pw,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        alert(data.error || "Administrator login failed.");
+        return;
+      }
+
+      sessionStorage.setItem("lt", "administrator");
+
+      setLoginType("administrator");
+
+      retrieve("administrator");
+    } catch (error) {
+      console.error(error);
+      alert("Unable to log in.");
+    }
+  };
+
   const handleLogin = (e) => {
-    let ltype = false;
+    let ltype = "administrator";
     const str = md5(pw.toLowerCase());
+    // console.log("str", str)
+    // console.log("process.env ADMIN_LOGIN_1", process.env.ADMIN_LOGIN_1)
+    // console.log("process.env NEXT_PUBLIC_MEMBER_LOGIN_1", process.env.NEXT_PUBLIC_MEMBER_LOGIN_1)
     if (
       str === process.env.NEXT_PUBLIC_MEMBER_LOGIN_1 ||
       str === process.env.NEXT_PUBLIC_MEMBER_LOGIN_2
@@ -75,14 +105,9 @@ const Landing = () => {
       str === process.env.NEXT_PUBLIC_CALENDAR_LOGIN_2
     )
       ltype = "calendar";
-    if (
-      str === process.env.NEXT_PUBLIC_ADMIN_LOGIN_1 ||
-      str === process.env.NEXT_PUBLIC_ADMIN_LOGIN_2
-    )
+    if (str === process.env.ADMIN_LOGIN_1 || str === process.env.ADMIN_LOGIN_2)
       ltype = "administrator";
 
-    // ltype = "administrator";
-    // ltype = "member";
     switch (ltype) {
       case "member":
         sessionStorage.setItem("lt", "member");
@@ -96,44 +121,33 @@ const Landing = () => {
         router.push("/calendarpg");
         break;
       case "administrator":
-        sessionStorage.setItem("lt", "administrator");
-        setLoginType("administrator");
-        retrieve();
+        loginAdministrator();
+        // sessionStorage.setItem("lt", "administrator");
+        // setLoginType("administrator");
+        // retrieve();
         break;
     }
     return;
+  };
+  const retrieve = async (type = "member") => {
+    const pgsData = await retrievePages(type);
 
-    function retrieve() {
-      const getPgs = async () => {
-        let parseQuery = new Parse.Query("Page");
-        const res = await parseQuery.findAll();
-        const pages = res.map((page) => ({ name: page.get("name") }));
-        const content = res.map((page) => ({ name: page.get("content") }));
-        let str,
-          pgsData = {};
-        for (let i in pages) {
-          str = pages[i]["name"];
-          if (loginType && str === "calendar" && loginType === "calendar") {
-            pgsData[str] = content[i]["name"];
-          } else if (loginType && loginType !== "calendar") {
-            pgsData[str] = content[i]["name"];
-          }
-        }
-        pgsData["type"] = loginType;
-        sessionStorage.setItem("pgsData", JSON.stringify(pgsData));
-        pgsData["currentPage"] = "landing";
-        setPages(pgsData);
-        let admin = false
-        if(sessionStorage.getItem('lt') === 'administrator') admin = true
-        if(admin) {
-          router.push("/calendar_admin");
-        } else {
-          router.push("/home");
-        }
-      };
-      getPgs();
+    if (!pgsData) {
+      alert("Unable to load page data.");
+      return;
+    }
+
+    pgsData.currentPage = "landing";
+
+    setPages(pgsData);
+
+    if (type === "administrator") {
+      router.push("/calendar_admin");
+    } else {
+      router.push("/home");
     }
   };
+
   return (
     <div
       id={`container-${pgName}`}
@@ -204,7 +218,7 @@ const Landing = () => {
               Get Driving Directions (Google)
             </a>
           </p>
-        </Box>       
+        </Box>
         <Box display="flex" justifyContent="center" sx={{ p: 0, margin: `0px 0px 0px 0px` }}>
           <p className="text-xl m-auto text-center">
             <a

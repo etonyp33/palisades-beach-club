@@ -12,15 +12,22 @@ const Reservations = () => {
   const [data, setData] = useState("");
   const { pages } = useContext(Pages_data);
   const router = useRouter();
-  const dataObj = getData(pages, pgName);
-
   useEffect(() => {
-    try {
-      setData(dataObj["content"]);
-    } catch (error) {
-      router.push("/");
+    const dataObj = getData(pages, pgName);
+
+    if (dataObj && dataObj.content) {
+      setData(dataObj.content);
     }
-  }, []);
+  }, [pages]);
+  // const dataObj = getData(pages, pgName);
+
+  // useEffect(() => {
+  //   try {
+  //     setData(dataObj["content"]);
+  //   } catch (error) {
+  //     router.push("/");
+  //   }
+  // }, []);
 
   return (
     <>
@@ -36,7 +43,7 @@ const Reservations = () => {
             <hr></hr>
 
             <div className="formatted-link py-0">
-              <Button variant="outlined" sx={{color:"#587429", borderColor:"#587429"}}>
+              <Button variant="outlined" sx={{ color: "#587429", borderColor: "#587429" }}>
                 <a
                   target="_blank"
                   href={`https://docs.google.com/forms/d/e/1FAIpQLSfM4IdYuYQGG3IObW0uHE6GpZptz5PhIqp1DEK0K0tSq-BoVA/viewform`}

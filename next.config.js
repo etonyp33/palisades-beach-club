@@ -9,9 +9,9 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'http',
-        hostname: 'tonypweb.com',
+        hostname: 'palisadesbeachclub.com',
         port: '',
-        pathname: '/pbc/**',
+        pathname: '/**',
       },
     ],
   },

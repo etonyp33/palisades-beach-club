@@ -26,10 +26,9 @@ import Select from "@mui/material/Select";
 import { loginCheck } from "../../src/components/verify";
 
 const Landing = () => {
-  
   useEffect(() => {
-    setPages(false)
-    console.log(pages)
+    setPages(false);
+    console.log(pages);
   }, []);
 
   const [loginType, setLoginType] = React.useState("member");
@@ -60,67 +59,126 @@ const Landing = () => {
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
-
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     let ltype = false;
-    const str = md5(pw);
+
+    const str = md5(pw.toLowerCase());
+
     if (
       str === process.env.NEXT_PUBLIC_MEMBER_LOGIN_1 ||
       str === process.env.NEXT_PUBLIC_MEMBER_LOGIN_2
-    )
+    ) {
       ltype = "member";
+    }
+
     if (
       str === process.env.NEXT_PUBLIC_CALENDAR_LOGIN_1 ||
       str === process.env.NEXT_PUBLIC_CALENDAR_LOGIN_2
-    )
+    ) {
       ltype = "calendar";
-    if (
-      str === process.env.NEXT_PUBLIC_ADMIN_LOGIN_1 ||
-      str === process.env.NEXT_PUBLIC_ADMIN_LOGIN_2
-    )
-      ltype = "administrator";
+    }
 
-      ltype = "member";
+    /*
+     * Administrator authentication is handled server-side.
+     */
+    if (!ltype) {
+      const adminResponse = await fetch("/api/admin-login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({
+          password: pw,
+        }),
+      });
+
+      if (adminResponse.ok) {
+        sessionStorage.setItem("lt", "administrator");
+
+        setLoginType("administrator");
+
+        retrieve();
+
+        return;
+      }
+    }
+
     switch (ltype) {
       case "member":
+        sessionStorage.setItem("lt", "member");
+        sessionStorage.setItem("init", "true");
         setLoginType("member");
         retrieve();
         break;
+
       case "calendar":
+        sessionStorage.setItem("lt", "member");
         setLoginType("calendar");
         router.push("/calendarpg");
-      case "administrator":
-        setLoginType("administrator");
-        retrieve();
         break;
     }
-    return;
-
-    function retrieve() {
-      const getPgs = async () => {
-        let parseQuery = new Parse.Query("Page");
-        const res = await parseQuery.findAll();
-        const pages = res.map((page) => ({ name: page.get("name") }));
-        const content = res.map((page) => ({ name: page.get("content") }));
-        let str,
-          pgsData = {};
-        for (let i in pages) {
-          str = pages[i]["name"];
-          if (loginType && str === "calendar" && loginType === "calendar") {
-            pgsData[str] = content[i]["name"];
-          } else if (loginType && loginType !== "calendar") {
-            pgsData[str] = content[i]["name"];
-          }
-        }
-        pgsData["type"] = loginType;
-        sessionStorage.setItem("pgsData", JSON.stringify(pgsData));
-        pgsData["currentPage"] = 'landing';
-        setPages(pgsData);
-        router.push("/home");
-      };
-      getPgs();
-    }
   };
+  // const handleLogin = (e) => {
+  //   let ltype = false;
+  //   const str = md5(pw);
+  //   if (
+  //     str === process.env.NEXT_PUBLIC_MEMBER_LOGIN_1 ||
+  //     str === process.env.NEXT_PUBLIC_MEMBER_LOGIN_2
+  //   )
+  //     ltype = "member";
+  //   if (
+  //     str === process.env.NEXT_PUBLIC_CALENDAR_LOGIN_1 ||
+  //     str === process.env.NEXT_PUBLIC_CALENDAR_LOGIN_2
+  //   )
+  //     ltype = "calendar";
+  //   if (
+  //     str === process.env.ADMIN_LOGIN_1 ||
+  //     str === process.env.ADMIN_LOGIN_2
+  //   )
+  //     ltype = "administrator";
+
+  //     ltype = "member";
+  //   switch (ltype) {
+  //     case "member":
+  //       setLoginType("member");
+  //       retrieve();
+  //       break;
+  //     case "calendar":
+  //       setLoginType("calendar");
+  //       router.push("/calendarpg");
+  //     case "administrator":
+  //       setLoginType("administrator");
+  //       retrieve();
+  //       break;
+  //   }
+  //   return;
+
+  //   function retrieve() {
+  //     const getPgs = async () => {
+  //       let parseQuery = new Parse.Query("Page");
+  //       const res = await parseQuery.findAll();
+  //       const pages = res.map((page) => ({ name: page.get("name") }));
+  //       const content = res.map((page) => ({ name: page.get("content") }));
+  //       let str,
+  //         pgsData = {};
+  //       for (let i in pages) {
+  //         str = pages[i]["name"];
+  //         if (loginType && str === "calendar" && loginType === "calendar") {
+  //           pgsData[str] = content[i]["name"];
+  //         } else if (loginType && loginType !== "calendar") {
+  //           pgsData[str] = content[i]["name"];
+  //         }
+  //       }
+  //       pgsData["type"] = loginType;
+  //       sessionStorage.setItem("pgsData", JSON.stringify(pgsData));
+  //       pgsData["currentPage"] = 'landing';
+  //       setPages(pgsData);
+  //       router.push("/home");
+  //     };
+  //     getPgs();
+  //   }
+  // };
   return (
     <div className="flex items-center justify-center h-screen mb-12 bg-fixed bg-center bg-cover custom-img-landing">
       <div className="absolute top-0 left-0 right-0 bottom-0  bg-black/40 z-[2] bgUnderlay" />
