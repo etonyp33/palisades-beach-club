@@ -33,5 +33,4 @@ const News = () => {
 };
 
 export default News;
-// / ml-[-10rem] mt-[-10rem]
-// <h2 className="text-5xl font-bold">Heading</h2>
+

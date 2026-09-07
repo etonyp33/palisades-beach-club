@@ -34,9 +34,9 @@ const Home = () => {
   return (
     <>
       <Nav />
-      <div
+         <div
         id={`container-${pgName}`}
-        className="basic-pg flex h-screen bg-fixed bg-center bg-cover custom-img"
+        className="basic-pg flex items-center justify-center h-screen mb-12 bg-fixed bg-center bg-cover custom-img"
       >
         <div className="absolute top-0 left-0 right-0 bottom-0  bg-black/40 z-[2] bgUnderlay" />
         <div className="sm:flex z-[2] main-box p-5 m-auto w-100 home-left">
@@ -74,5 +74,4 @@ const Home = () => {
 };
 
 export default Home;
-// / ml-[-10rem] mt-[-10rem]
-// <h2 className="text-5xl font-bold">Heading</h2>
+

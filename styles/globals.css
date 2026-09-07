@@ -77,11 +77,10 @@ p {
 }
 .main-box {
   min-width: 460px;
-  height: 100%;
+  height: calc(85vh);
   overflow-y: auto;
   overflow-x: hidden;
-  /* overflow: scroll;
-   */
+  margin: 70px 0 0 0;
 }
 
 #container-home .main-box,
@@ -225,7 +224,7 @@ p {
     .top-nav-link {
       font-size: 16px;
     }
-    #container-home .main-box{
+    #container-home .main-box {
       min-width: auto;
     }
   }
@@ -322,7 +321,6 @@ li {
   padding: 0;
 }
 
-
 .text-container ul {
   list-style: auto;
   margin: 0;
@@ -330,11 +328,13 @@ li {
   padding: 0;
 }
 
-#container-rules .basic-page, #container-reservations .basic-page{
-  padding:  20px 50px 0;
+#container-rules .basic-page,
+#container-reservations .basic-page {
+  padding: 20px 50px 0;
 }
-#container-rules ul, #container-reservations ul{
-  display: list-item!important;
+#container-rules ul,
+#container-reservations ul {
+  display: list-item !important;
   margin-left: 20px;
-  list-style: disc!important;
+  list-style: disc !important;
 }

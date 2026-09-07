@@ -10,6 +10,7 @@ import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import { getData, getBoard } from "./data";
 import { Pages_data } from "../context/context";
+import GalleryManagement from "./GalleryManagement";
 import "react-quill/dist/quill.snow.css";
 // import Link from "next/link";
 import EditorToolbar, { modules, formats } from "./EditorToolbar";
@@ -36,17 +37,32 @@ const Admin = () => {
 
   const [editor, setEditor] = useState(false);
 
+  const [galleries, setGalleries] = useState([]);
+  const [galleryName, setGalleryName] = useState("");
+  const [gallerySlug, setGallerySlug] = useState("");
+  const [galleryDescription, setGalleryDescription] = useState("");
+  const [galleryLoading, setGalleryLoading] = useState(false);
+
   const handleClick = (e) => {
     try {
-      let type = e.target.textContent;
-      if (type === label) return;
-      setLabel(e.target.textContent);
-      type = type.toLowerCase();
-      console.log(type);
+      const type = e.currentTarget.getAttribute("name").toLowerCase();
+
+      setLabel(e.currentTarget.getAttribute("name"));
       setSaveType(type);
+
+      if (type === "gallery") {
+        setValue("");
+        setQuillClass("q-gallery");
+        setBoardEdit("hidden");
+        setEditor(false);
+        return;
+      }
+
+      setEditor(true);
+
       const obj = getData(pages, type);
-      // console.log(obj["content"]);
       setValue(obj["content"]);
+
       if (type === "home") {
         setQuillClass("q-home");
         setBoardEdit("");
@@ -55,7 +71,7 @@ const Admin = () => {
         setBoardEdit("hidden");
       }
     } catch (error) {
-      // console.log(error);
+      console.error("Admin menu error:", error);
     }
   };
 
@@ -71,6 +87,7 @@ const Admin = () => {
       const ReactQuill = typeof window === "object" ? require("react-quill") : () => false;
       // console.log(value);
       setEditor(true);
+      loadGalleries();
     } catch (error) {
       router.push("/");
     }
@@ -104,24 +121,30 @@ const Admin = () => {
     return id;
   }
 
-  // function pageId(name) {
-  //   let id;
-  //   switch (name) {
-  //     case "home":
-  //       id = process.env.NEXT_PUBLIC_HOME_ID;
-  //       break;
-  //     case "news":
-  //       id = process.env.NEXT_PUBLIC_NEWS_ID;
-  //       break;
-  //     case "rules":
-  //       id = process.env.NEXT_PUBLIC_RULES_ID;
-  //       break;
-  //     case "reservations":
-  //       id = process.env.NEXT_PUBLIC_RESERVATIONS_ID;
-  //       break;
-  //   }
-  //   return id;
-  // }
+  async function loadGalleries() {
+    try {
+      const query = new Parse.Query("Gallery");
+
+      query.equalTo("active", true);
+      query.ascending("sortOrder");
+
+      const results = await query.find();
+
+      const galleryData = results.map((gallery) => ({
+        id: gallery.id,
+        name: gallery.get("name"),
+        slug: gallery.get("slug"),
+        description: gallery.get("description") || "",
+        isDefault: gallery.get("isDefault") || false,
+        sortOrder: gallery.get("sortOrder") || 0,
+      }));
+
+      setGalleries(galleryData);
+    } catch (error) {
+      console.error("Gallery load error:", error);
+    }
+  }
+
   function runSave() {
     const save = async () => {
       let result;
@@ -280,6 +303,17 @@ const Admin = () => {
                   <div
                     className="admin-link  formatted-link pl-1  pr-1"
                     onClick={handleClick}
+                    name="Gallery"
+                    id="Gallery"
+                  >
+                    <Typography variant="h6" gutterBottom>
+                      Gallery
+                    </Typography>
+                  </div>
+                  <span className="menu-divider">|</span>
+                  <div
+                    className="admin-link  formatted-link pl-1  pr-1"
+                    onClick={handleClick}
                     name="Reservations"
                     id="Reservations"
                   >
@@ -298,9 +332,11 @@ const Admin = () => {
                       Rules
                     </Typography>
                   </div>
-                  <IconButton sx={{ ml: 5 }} aria-label="save" onClick={runSave}>
-                    <SaveIcon />
-                  </IconButton>
+                  {saveType !== "gallery" && (
+                    <IconButton sx={{ ml: 5 }} aria-label="save" onClick={runSave}>
+                      <SaveIcon />
+                    </IconButton>
+                  )}
                 </Box>
                 <div className={boardEdit}>
                   <Box display="flex" justifyContent="center" width="1100px" sx={{ p: 0 }}>
@@ -344,27 +380,32 @@ const Admin = () => {
                     {label}
                   </Typography>
                 </Box>
-                <Box
-                  display="flex"
-                  justifyContent="center"
-                  height={"100%"}
-                  width="1100px"
-                  sx={{ p: 0 }}
-                >
-                  {/* <ReactQuill
-              modules={modules}
-              theme="snow"
-              value={value}
-              onChange={setValue}
-              className={quillClass}
-            /> */}
 
-                  <div className="text-editor">
-                    {typeof (<ReactQuill />) === "undefined" ? (
-                      ""
-                    ) : (
-                      <>
+                {saveType === "gallery" ? (
+                  <GalleryManagement
+                    galleries={galleries}
+                    galleryName={galleryName}
+                    setGalleryName={setGalleryName}
+                    gallerySlug={gallerySlug}
+                    setGallerySlug={setGallerySlug}
+                    galleryDescription={galleryDescription}
+                    setGalleryDescription={setGalleryDescription}
+                    galleryLoading={galleryLoading}
+                    setGalleryLoading={setGalleryLoading}
+                    loadGalleries={loadGalleries}
+                  />
+                ) : (
+                  editor && (
+                    <Box
+                      display="flex"
+                      justifyContent="center"
+                      height={"100%"}
+                      width="1100px"
+                      sx={{ p: 0 }}
+                    >
+                      <div className="text-editor">
                         <EditorToolbar />
+
                         <ReactQuill
                           theme="snow"
                           value={value}
@@ -372,18 +413,10 @@ const Admin = () => {
                           modules={modules}
                           formats={formats}
                         />
-                      </>
-                    )}
-                    {/* <EditorToolbar />
-              <ReactQuill
-                theme="snow"
-                value={value}
-                onChange={setValue}
-                modules={modules}
-                formats={formats}
-              /> */}
-                  </div>
-                </Box>
+                      </div>
+                    </Box>
+                  )
+                )}
               </div>
             </Box>
           </div>
@@ -393,5 +426,3 @@ const Admin = () => {
   );
 };
 export default Admin;
-// / ml-[-10rem] mt-[-10rem]
-// <h2 className="text-5xl font-bold">Heading</h2>

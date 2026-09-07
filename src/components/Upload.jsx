@@ -19,6 +19,7 @@ const Upload = () => {
 
   const fileInputRef = useRef(null);
   const rosterInputRef = useRef(null);
+  const [galleryThumbnails, setGalleryThumbnails] = useState({});
 
   useEffect(() => {
     const loadGalleries = async () => {
@@ -40,6 +41,26 @@ const Upload = () => {
         }));
 
         setGalleries(galleryData);
+
+        const imageQuery = new Parse.Query("GalleryImage");
+
+        imageQuery.equalTo("active", true);
+        imageQuery.ascending("sortOrder");
+
+        const imageResults = await imageQuery.find();
+
+        const thumbnails = {};
+
+        imageResults.forEach((image) => {
+          const slug = image.get("gallerySlug");
+          const url = image.get("url");
+
+          if (slug && url && !thumbnails[slug]) {
+            thumbnails[slug] = url;
+          }
+        });
+
+        setGalleryThumbnails(thumbnails);
 
         const defaultGallery = galleryData.find((gallery) => gallery.isDefault);
 
@@ -295,7 +316,7 @@ const Upload = () => {
     <>
       <Nav />
 
-      <div className="basic-pg p-60 pg-reservations flex items-center justify-center min-h-screen bg-fixed bg-center bg-cover custom-img py-10">
+      <div className="basic-pg p-60 pg-reservations flex items-center justify-center min-h-screen bg-fixed bg-center bg-cover custom-img py-20">
         <div className="absolute top-0 left-0 right-0 bottom-0 bg-black/40 z-[2] bgUnderlay" />
 
         <div className="z-[2] main-box main-box-admin p-5 m-auto bg-white rounded-lg w-full max-w-2xl">
@@ -308,6 +329,46 @@ const Upload = () => {
           ) : (
             <>
               {/* Gallery selector */}
+              {/* Gallery selector */}
+              <div className="flex flex-wrap justify-center gap-4 mb-6">
+                {galleries.map((gallery) => {
+                  const thumbnail = galleryThumbnails[gallery.slug];
+                  const isSelected = selectedGallery === gallery.slug;
+
+                  return (
+                    <button
+                      key={gallery.id}
+                      type="button"
+                      onClick={() => setSelectedGallery(gallery.slug)}
+                      disabled={uploading}
+                      className={`w-36 overflow-hidden rounded-lg border-2 transition ${
+                        isSelected
+                          ? "border-black shadow-lg"
+                          : "border-gray-300 hover:border-gray-500"
+                      }`}
+                    >
+                      <div className="h-20 bg-gray-200">
+                        {thumbnail ? (
+                          <img
+                            src={thumbnail}
+                            alt={gallery.name}
+                            className="w-full h-full object-cover"
+                          />
+                        ) : (
+                          <div className="w-full h-full flex items-center justify-center text-xs text-gray-500">
+                            No image
+                          </div>
+                        )}
+                      </div>
+
+                      <div className="bg-white px-2 py-2 text-sm font-semibold text-center truncate">
+                        {gallery.name}
+                      </div>
+                    </button>
+                  );
+                })}
+              </div>
+
               <label className="block mb-2 font-semibold">Gallery</label>
 
               <select

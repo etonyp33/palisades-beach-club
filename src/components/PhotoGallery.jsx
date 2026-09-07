@@ -26,13 +26,10 @@ const PhotoGallery = () => {
   const [galleries, setGalleries] = useState([]);
   const [selectedGallery, setSelectedGallery] = useState("");
   const [loadingGalleries, setLoadingGalleries] = useState(true);
+  const [galleryThumbnails, setGalleryThumbnails] = useState({});
 
   useEffect(() => {
-    // alert("Gallery useEffect started");
-
     const loadGalleries = async () => {
-      // alert("loadGalleries started");
-
       try {
         const query = new Parse.Query("Gallery");
 
@@ -40,8 +37,6 @@ const PhotoGallery = () => {
         query.ascending("sortOrder");
 
         const results = await query.find();
-
-        // alert("Found " + results.length + " galleries");
 
         const galleryData = results.map((gallery) => ({
           id: gallery.id,
@@ -62,10 +57,8 @@ const PhotoGallery = () => {
           setSelectedGallery(galleryData[0].slug);
         }
       } catch (error) {
-        // alert("Gallery error: " + error.message);
         console.error("Gallery error:", error);
       } finally {
-        // alert("Gallery loading finished");
         setLoadingGalleries(false);
       }
     };
@@ -74,39 +67,53 @@ const PhotoGallery = () => {
   }, []);
 
   useEffect(() => {
-    if (!selectedGallery) {
+    if (!galleries.length) {
       return;
     }
 
-    const fetchData = async () => {
+    const fetchGalleryImages = async () => {
       try {
         const query = new Parse.Query("GalleryImage");
 
-        query.equalTo("gallerySlug", selectedGallery);
         query.equalTo("active", true);
         query.ascending("sortOrder");
 
         const results = await query.find();
 
-        const imgData = results
+        const allImages = results
           .map((image) => ({
             src: image.get("url"),
             key: image.id,
-            width: image.get("width"),
-            height: image.get("height"),
+            width: Number(image.get("width")),
+            height: Number(image.get("height")),
             alt: image.get("filename") || "Gallery image",
+            gallerySlug: image.get("gallerySlug"),
           }))
-          .filter((image) => image.src && Number(image.width) > 0 && Number(image.height) > 0);
+          .filter((image) => image.src && image.width > 0 && image.height > 0 && image.gallerySlug);
 
-        setData(imgData);
+        // Create a thumbnail from the first image in each gallery.
+        const thumbnails = {};
+
+        allImages.forEach((image) => {
+          if (!thumbnails[image.gallerySlug]) {
+            thumbnails[image.gallerySlug] = image.src;
+          }
+        });
+
+        setGalleryThumbnails(thumbnails);
+
+        // Images for the currently selected gallery.
+        const selectedImages = allImages.filter((image) => image.gallerySlug === selectedGallery);
+
+        setData(selectedImages);
       } catch (error) {
         console.error("Gallery image error:", error);
         router.push("/");
       }
     };
 
-    fetchData();
-  }, [selectedGallery, router]);
+    fetchGalleryImages();
+  }, [galleries, selectedGallery, router]);
 
   // useEffect(() => {
   //   try {
@@ -143,13 +150,63 @@ const PhotoGallery = () => {
       <Nav />
       <div
         id={`container-${pgName}`}
-        className="basic-pg flex items-center justify-center h-screen mb-12 bg-fixed bg-center bg-cover custom-img"
+        className="calendar-only flex items-center justify-center h-screen bg-fixed bg-center bg-cover custom-img"
       >
         <div className="absolute top-0 left-0 right-0 bottom-0  bg-black/40 z-[2] bgUnderlay" />
         <div className=" z-[2] main-box p-5 m-auto">
           <div className="flex-col text-center p-5 basic-page">
             <div className="hd-text-bold formatted-link page-header">Gallery</div>
             <hr></hr>
+
+            {!loadingGalleries && galleries.length > 0 && (
+              <div className="flex flex-wrap justify-center gap-5 mb-10">
+                {galleries.map((gallery) => {
+                  const thumbnail = galleryThumbnails[gallery.slug];
+                  const isSelected = selectedGallery === gallery.slug;
+
+                  return (
+                    <button
+                      key={gallery.id}
+                      type="button"
+                      onClick={() => {
+                        setSelectedGallery(gallery.slug);
+                        setIndex(-1);
+                      }}
+                      className={`group w-48 overflow-hidden rounded-xl bg-white transition-all duration-300 ${
+                        isSelected
+                          ? "ring-4 ring-white shadow-2xl scale-[1.03]"
+                          : "shadow-md hover:shadow-xl hover:-translate-y-1"
+                      }`}
+                    >
+                      <div className="relative h-28 overflow-hidden bg-gray-200">
+                        {thumbnail ? (
+                          <img
+                            src={thumbnail}
+                            alt={gallery.name}
+                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                          />
+                        ) : (
+                          <div className="w-full h-full flex items-center justify-center text-sm text-gray-500">
+                            No image
+                          </div>
+                        )}
+
+                        {isSelected && <div className="absolute inset-0 bg-black/20" />}
+                      </div>
+
+                      <div
+                        className={`px-3 py-3 text-center font-semibold transition ${
+                          isSelected ? "bg-black text-white" : "bg-white text-gray-800"
+                        }`}
+                      >
+                        {gallery.name === "Default" ? "Home Gallery" : gallery.name}
+                      </div>
+                    </button>
+                  );
+                })}
+              </div>
+            )}
+
             <div className="w-100">
               <PhotoAlbum
                 photos={data}
@@ -182,5 +239,3 @@ const PhotoGallery = () => {
 };
 
 export default PhotoGallery;
-// / ml-[-10rem] mt-[-10rem]
-// <h2 className="text-5xl font-bold">Heading</h2>
