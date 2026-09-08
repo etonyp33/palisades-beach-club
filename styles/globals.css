@@ -65,7 +65,7 @@ html {
   width: auto;
 }
 .page-header {
-  margin-top: 50px;
+  /* margin-top: 50px; */
   margin-bottom: 5px;
 }
 .basic-page hr {

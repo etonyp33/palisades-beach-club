@@ -369,17 +369,19 @@ const Admin = () => {
                     />
                   </Box>
                 </div>
-                <Box
-                  display="flex"
-                  justifyContent="center"
-                  height={"40px"}
-                  width="1100px"
-                  sx={{ p: 0 }}
-                >
-                  <Typography variant="h6" gutterBottom>
-                    {label}
-                  </Typography>
-                </Box>
+                {label !== "Gallery" && (
+                  <Box
+                    display="flex"
+                    justifyContent="center"
+                    height={"40px"}
+                    width="1100px"
+                    sx={{ p: 0 }}
+                  >
+                    <Typography variant="h6" gutterBottom>
+                      {label}
+                    </Typography>
+                  </Box>
+                )}
 
                 {saveType === "gallery" ? (
                   <GalleryManagement

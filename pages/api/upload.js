@@ -1,6 +1,6 @@
 import { put } from "@vercel/blob";
+import crypto from "crypto";
 import { requireAdmin } from "../../src/requireAdmin";
-
 export const config = {
   api: {
     bodyParser: false,
@@ -21,13 +21,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    const {
-      gallerySlug,
-      filename,
-      contentType,
-      width,
-      height,
-    } = req.query;
+    const { gallerySlug, filename, contentType, width, height } = req.query;
 
     if (!gallerySlug || !filename) {
       return res.status(400).json({
@@ -84,40 +78,35 @@ export default async function handler(req, res) {
     console.log("Size:", buffer.length);
 
     // Upload image to Vercel Blob
-    const blob = await put(
-      `gallery/${gallerySlug}/${filename}`,
-      buffer,
-      {
-        access: "public",
-        contentType: contentType || "application/octet-stream",
-      }
-    );
+    const extension = filename.includes(".") ? filename.substring(filename.lastIndexOf(".")) : "";
 
+
+    const uniqueFilename = `${crypto.randomUUID()}${extension}`;
+
+    const blob = await put(`gallery/${gallerySlug}/${uniqueFilename}`, buffer, {
+      access: "public",
+      contentType: contentType || "application/octet-stream",
+    });
     console.log("Blob uploaded:", blob.url);
 
     // Create GalleryImage record in Back4App
-    const parseResponse = await fetch(
-      "https://parseapi.back4app.com/classes/GalleryImage",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "X-Parse-Application-Id":
-            "u5D9tHT4lhdycxqEiDDyt5nAXEuyQuPQ8IuKG0At",
-          "X-Parse-REST-API-Key":
-            process.env.BACK4APP_REST_API_KEY,
-        },
-        body: JSON.stringify({
-          gallerySlug,
-          filename,
-          url: blob.url,
-          width: imageWidth,
-          height: imageHeight,
-          sortOrder: 0,
-          active: true,
-        }),
-      }
-    );
+    const parseResponse = await fetch("https://parseapi.back4app.com/classes/GalleryImage", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-Parse-Application-Id": "u5D9tHT4lhdycxqEiDDyt5nAXEuyQuPQ8IuKG0At",
+        "X-Parse-REST-API-Key": process.env.BACK4APP_REST_API_KEY,
+      },
+      body: JSON.stringify({
+        gallerySlug,
+        filename,
+        url: blob.url,
+        width: imageWidth,
+        height: imageHeight,
+        sortOrder: 0,
+        active: true,
+      }),
+    });
 
     const parseData = await parseResponse.json();
 
@@ -125,9 +114,7 @@ export default async function handler(req, res) {
     console.log("GalleryImage response:", parseData);
 
     if (!parseResponse.ok) {
-      throw new Error(
-        parseData.error || "Failed to create GalleryImage"
-      );
+      throw new Error(parseData.error || "Failed to create GalleryImage");
     }
 
     return res.status(200).json({

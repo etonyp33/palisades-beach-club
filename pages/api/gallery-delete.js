@@ -4,7 +4,7 @@ import { requireAdmin } from "../../src/requireAdmin";
 
 Parse.initialize(
   "u5D9tHT4lhdycxqEiDDyt5nAXEuyQuPQ8IuKG0At",
-  "Gnf9K4r6E5MYOVkABIirUYw3XcIjMHZx5s8NVALg"
+  "Gnf9K4r6E5MYOVkABIirUYw3XcIjMHZx5s8NVALg",
 );
 
 Parse.serverURL = "https://parseapi.back4app.com/";
@@ -34,12 +34,17 @@ export default async function handler(req, res) {
     const slug = gallery.get("slug");
     const wasDefault = gallery.get("isDefault") === true;
 
+    if (wasDefault) {
+      return res.status(400).json({
+        error: "The default gallery cannot be deleted.",
+      });
+    }
+
     if (!slug) {
       return res.status(400).json({
         error: "Gallery has no slug",
       });
     }
-
     const imageQuery = new Parse.Query("GalleryImage");
     imageQuery.equalTo("gallerySlug", slug);
 
@@ -53,11 +58,7 @@ export default async function handler(req, res) {
         try {
           await del(url);
         } catch (blobError) {
-          console.error(
-            "Failed to delete Blob:",
-            url,
-            blobError.message
-          );
+          console.error("Failed to delete Blob:", url, blobError.message);
         }
       }
     }
@@ -69,7 +70,6 @@ export default async function handler(req, res) {
 
     // Delete the Gallery record.
     await gallery.destroy();
-
 
     return res.status(200).json({
       success: true,
