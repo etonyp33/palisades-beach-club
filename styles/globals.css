@@ -169,9 +169,10 @@ p {
 }
 
 #container-roster iframe {
-  width: 350px;
+  /* width: 350px; */
   height: 750px;
   overflow-y: auto;
+  padding-right: 30px;
 }
 
 .rbc-calendar {
