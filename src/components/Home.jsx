@@ -17,7 +17,7 @@ const Home = () => {
   const [bName, setBName] = useState("");
   const [bEmail, setBEmail] = useState("");
   const [imgWidth, setImgWidth] = useState("510");
-  const [imgHeight, setImgHeight] = useState("383");
+  const [imgHeight, setImgHeight] = useState("395");
 
   useEffect(() => {
     try {
