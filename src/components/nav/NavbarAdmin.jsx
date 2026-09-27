@@ -40,7 +40,7 @@ const Navbar = () => {
             <Link href={"/calendar_admin"}>Calendar</Link>
           </li>
           <li className="p-4 top-nav-link">
-            <Link href={"/upload"}>Upload</Link>
+            <Link href={"/upload"}>PDF</Link>
           </li>
           <li className="p-4 top-nav-link">
             <Link href={"/admin"}>Page Edit</Link>

@@ -80,7 +80,6 @@ export default async function handler(req, res) {
     // Upload image to Vercel Blob
     const extension = filename.includes(".") ? filename.substring(filename.lastIndexOf(".")) : "";
 
-
     const uniqueFilename = `${crypto.randomUUID()}${extension}`;
 
     const blob = await put(`gallery/${gallerySlug}/${uniqueFilename}`, buffer, {
@@ -88,6 +87,32 @@ export default async function handler(req, res) {
       contentType: contentType || "application/octet-stream",
     });
     console.log("Blob uploaded:", blob.url);
+
+    const sortOrderQuery = await fetch(
+      `https://parseapi.back4app.com/classes/GalleryImage?where=${encodeURIComponent(
+        JSON.stringify({
+          gallerySlug,
+          active: true,
+        }),
+      )}&order=-sortOrder&limit=1`,
+      {
+        headers: {
+          "X-Parse-Application-Id": "u5D9tHT4lhdycxqEiDDyt5nAXEuyQuPQ8IuKG0At",
+          "X-Parse-REST-API-Key": process.env.BACK4APP_REST_API_KEY,
+        },
+      },
+    );
+
+    const sortOrderData = await sortOrderQuery.json();
+
+    if (!sortOrderQuery.ok) {
+      throw new Error(sortOrderData.error || "Failed to determine image sort order");
+    }
+
+    const lastSortOrder =
+      sortOrderData.results?.length > 0 ? Number(sortOrderData.results[0].sortOrder) || 0 : -1;
+
+    const nextSortOrder = lastSortOrder + 1;
 
     // Create GalleryImage record in Back4App
     const parseResponse = await fetch("https://parseapi.back4app.com/classes/GalleryImage", {
@@ -97,13 +122,14 @@ export default async function handler(req, res) {
         "X-Parse-Application-Id": "u5D9tHT4lhdycxqEiDDyt5nAXEuyQuPQ8IuKG0At",
         "X-Parse-REST-API-Key": process.env.BACK4APP_REST_API_KEY,
       },
+
       body: JSON.stringify({
         gallerySlug,
         filename,
         url: blob.url,
         width: imageWidth,
         height: imageHeight,
-        sortOrder: 0,
+        sortOrder: nextSortOrder,
         active: true,
       }),
     });

@@ -22,6 +22,7 @@ const GalleryManagement = ({
   const [imagesLoading, setImagesLoading] = useState(false);
   const [uploadingImages, setUploadingImages] = useState(false);
   const [editingGallery, setEditingGallery] = useState(null);
+  const [draggingImageId, setDraggingImageId] = useState(null);
 
   const createGallery = async () => {
     setMessage("");
@@ -73,6 +74,60 @@ const GalleryManagement = ({
       setMessage(error.message || "Failed to create gallery.");
     } finally {
       setGalleryLoading(false);
+    }
+  };
+
+  const reorderGalleryImages = async (draggedId, targetId) => {
+    if (!draggedId || !targetId || draggedId === targetId) {
+      return;
+    }
+
+    const currentImages = [...galleryImages];
+
+    const draggedIndex = currentImages.findIndex((image) => image.id === draggedId);
+
+    const targetIndex = currentImages.findIndex((image) => image.id === targetId);
+
+    if (draggedIndex === -1 || targetIndex === -1) {
+      return;
+    }
+
+    // Move the dragged image to the target position.
+    const [draggedImage] = currentImages.splice(draggedIndex, 1);
+
+    currentImages.splice(targetIndex, 0, draggedImage);
+
+    // Update the UI immediately.
+    setGalleryImages(currentImages);
+    setDraggingImageId(null);
+    setMessage("");
+
+    try {
+      const response = await fetch("/api/gallery-images-reorder", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          gallerySlug: selectedGallery.slug,
+          imageIds: currentImages.map((image) => image.id),
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to save image order.");
+      }
+
+      setMessage("Photo order saved.");
+    } catch (error) {
+      console.error("Gallery reorder error:", error);
+
+      // Reload the original order if saving failed.
+      await loadGalleryImages(selectedGallery);
+
+      setMessage(error.message || "Failed to save photo order.");
     }
   };
 
@@ -435,7 +490,24 @@ const GalleryManagement = ({
                         {galleryImages.map((image) => (
                           <div
                             key={image.id}
-                            className="w-28 overflow-hidden rounded-lg border border-gray-200 bg-white"
+                            draggable
+                            onDragStart={() => {
+                              setDraggingImageId(image.id);
+                            }}
+                            onDragEnd={() => {
+                              setDraggingImageId(null);
+                            }}
+                            onDragOver={(event) => {
+                              event.preventDefault();
+                            }}
+                            onDrop={(event) => {
+                              event.preventDefault();
+
+                              reorderGalleryImages(draggingImageId, image.id);
+                            }}
+                            className={`w-28 overflow-hidden rounded-lg border border-gray-200 bg-white ${
+                              draggingImageId === image.id ? "opacity-50" : ""
+                            }`}
                           >
                             <div className="aspect-square overflow-hidden bg-gray-100">
                               <img
